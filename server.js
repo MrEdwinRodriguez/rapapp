@@ -30,9 +30,9 @@ app.use(multer().any());
 // 
 // ROUTER
 
-// var rap = require('./controllers/rap_controller');
+var rap = require('./controllers/rap_controller');
 // var rap = require('./controllers/rap')
-// app.use('/', rap);
+app.use('/', rap);
 // app.use('/', rap);
 
 
