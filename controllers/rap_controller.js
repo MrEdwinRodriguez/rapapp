@@ -8,4 +8,8 @@ var app = firebase.initializeApp({ apiKey: "AIzaSyB-FKM1CKZpjJPzlfIk6xT4afP6ZGQ_
     databaseURL: "https://spit-bars.firebaseio.com",
     storageBucket: "spit-bars.appspot.com",
     messagingSenderId: "810792566820"
-  };
+  });
+
+router.get('/', function(req,res) {
+		res.sendFile(path.join(__dirname,'../public/index.html'));
+});
