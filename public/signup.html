@@ -28,7 +28,12 @@
 
                 <form  class="login-form" method="post" action="/rapapp/newuser">
                     <div class="control-group">
-                        <input type="text" class="login-field" value="" placeholder="first & last name" id="login-name" name='name' required>
+                        <input type="text" class="login-field" value="" placeholder="first name" id="first_name" name='first_name' required>
+                        <label class="login-field-icon fui-user" for="login-name"></label>
+                    </div>
+
+                    <div class="control-group">
+                        <input type="text" class="login-field" value="" placeholder="lastname" id="last_name" name='last_name' required>
                         <label class="login-field-icon fui-user" for="login-name"></label>
                     </div>
 
@@ -36,7 +41,7 @@
 
                         <input type="email" class="login-field" value="" placeholder="email" id="login-email" name='email' required>
                         <label class="login-field-icon fui-lock" for="login-email" ></label>
-
+ 
                     </div>
 
                     <div class="control-group">
@@ -44,8 +49,8 @@
                         <label class="login-field-icon fui-lock" for="login-pass" ></label>
                     </div>
 
-                    <select name="DOBMonth">
-                        <option> - Month - </option>
+                    <select name="DOBMonth" required= 'value'>
+                        <option disabled selected value> - Month - </option>
                         <option value="January">January</option>
                         <option value="Febuary">Febuary</option>
                         <option value="March">March</option>
@@ -60,8 +65,8 @@
                         <option value="December">December</option>
                     </select>
 
-                    <select name="DOBDay">
-                        <option> - Day - </option>
+                    <select name="DOBDay" required>
+                        <option disabled selected value> - Day - </option>
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
@@ -95,8 +100,8 @@
                         <option value="31">31</option>
                     </select>
 
-                    <select name="DOBYear">
-                        <option> - Year - </option>
+                    <select name="DOBYear" required>
+                        <option disabled selected value> - Year - </option>
                         <option value="1993">2007</option>
                         <option value="1992">2006</option>
                         <option value="1991">2005</option>

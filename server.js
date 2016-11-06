@@ -34,11 +34,6 @@ var rap = require('./controllers/rap_controller');
 // var rap = require('./controllers/rap')
 app.use('/', rap);
 
-
-// app.get("/signup", function (req, res) {
-//   res.sendfile(__dirname + "/public/signup.html");
-// });
-
 // app.use('/', rap);
 
 
