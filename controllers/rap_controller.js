@@ -30,7 +30,7 @@ router.get("/dashboard", function (req, res) {
 
 
 
-router.post('/rapapp/newuser', function(req, res) {
+router.post('/spitbars/newuser', function(req, res) {
 
 	console.log(req.body)
 	// saves form input into variables
@@ -65,6 +65,49 @@ router.post('/rapapp/newuser', function(req, res) {
 
 			var colName = ['name', 'email', 'type'];
 			var colVal = [newUserName, newUserEmail, newUserType];
+
+			writer.insertInto('users', colName, colVal, function(data){
+			res.redirect('/dashboard')
+				});
+
+
+});
+
+
+// existing user signin
+router.post('/spitbars/login', function(req, res) {
+	
+	console.log(req.body)
+	// var newUserName = 'place holder';
+	var userEmail = req.body.user_email;
+	var userPassword = req.body.user_password;
+	// var newUserType = 'student';
+	
+
+	
+
+	 firebase.auth().createUserWithEmailAndPassword(userEmail, userPassword).catch(function(error) {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        // [START_EXCLUDE]
+
+
+
+			
+        if (errorCode == 'auth/weak-password') {
+          console.log('The password is too weak.');
+        } else {
+          console.log(errorMessage);
+        }
+        console.log(error);
+        // [END_EXCLUDE]
+      });
+
+
+			var colName = ['email'];
+			var colVal= [userEmail];
+			// var colVal = [newUserName, newUserEmail, newUserType];
 
 			writer.insertInto('users', colName, colVal, function(data){
 			res.redirect('/dashboard')
