@@ -62,9 +62,9 @@ router.post('/spitbars/newuser', function(req, res) {
         // [END_EXCLUDE]
       });
 
-
-			var colName = ['name', 'email', 'type'];
-			var colVal = [newUserName, newUserEmail, newUserType];
+	 		// variable stores name of columes in DB
+			var colName = ['firstname', 'lastname','email', 'month', 'day', 'year'];
+			var colVal = [newFirstName, newLastName, newUserEmail, newUserDOBmonth, newUserDOBday, newUserDOByear];
 
 			writer.insertInto('users', colName, colVal, function(data){
 			res.redirect('/dashboard')
