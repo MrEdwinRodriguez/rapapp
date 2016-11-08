@@ -62,13 +62,26 @@ router.post('/spitbars/newuser', function(req, res) {
         // [END_EXCLUDE]
       });
 
-	 		// variable stores name of columes in DB
-			var colName = ['firstname', 'lastname','email', 'month', 'day', 'year'];
-			var colVal = [newFirstName, newLastName, newUserEmail, newUserDOBmonth, newUserDOBday, newUserDOByear];
+	 		var user = firebase.auth().currentUser;
+			var name, email, photoUrl, uid;
 
-			writer.insertInto('users', colName, colVal, function(data){
+
+
+				if (user != null) {
+				 name = user.displayName;
+				 email = user.email;
+				 photoUrl = user.photoURL;
+				 uid = user.uid; 
+
+			var colName = ['firstname', 'lastname','email', 'month', 'day', 'year', 'uid'];
+			var colVal = [newFirstName, newLastName, newUserEmail, newUserDOBmonth, newUserDOBday, newUserDOByear, uid];
+
+			rap.insertInto('users', colName, colVal, function(data){
 			res.redirect('/dashboard')
 				});
+				}
+	 		// variable stores name of columes in DB
+
 
 
 });
@@ -104,14 +117,47 @@ router.post('/spitbars/login', function(req, res) {
         // [END_EXCLUDE]
       });
 
+// session begins here
+	 		var user = firebase.auth().currentUser;
+			var name, email, photoUrl, uid;
 
-			var colName = ['email'];
-			var colVal= [userEmail];
+
+
+				if (user != null) {
+				 
+				 email = user.email;				 
+				 uid = user.uid;
+
+				var colName = ['uid'];
+				var colVal= [uid];
 			// var colVal = [newUserName, newUserEmail, newUserType];
 
-			writer.insertInto('users', colName, colVal, function(data){
-			res.redirect('/dashboard')
+
+				rap.select('users', colName, colVal, function(user){
+
+                req.session.user_id = user.id;
+                req.session.first_name = user.first_name;
+                req.session.last_name = user.last_name;
+                req.session.user_email = user.email;
+
+                var token = jwt.sign({
+                    password_hash: user.password_hash
+                }, app.get('jwtSecret'), {
+                    expiresIn: 60 * 60 * 15
+                })
+
+                console.log("Token")
+                console.log(token)
+
+
+
+				res.redirect('/dashboard')
 				});
+
+				
+				 }; 
+
+
 
 
 });
