@@ -16,6 +16,7 @@ var rap = {
 	},	
 
 	insertInto: function(table, col , val, cb) {
+			// console.log(orm)
 		orm.create(table, col, val, cb);	
 	},
 

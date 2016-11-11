@@ -4,6 +4,7 @@ USE rapapp_db;
 CREATE TABLE users
 (
 	id int NOT NULL AUTO_INCREMENT,
+	uid char(64) NOT NULL,
 	firstname varchar(50) NOT NULL,
 	lastname varchar (50) NOT NULL,
 	email varchar (50) NOT NULL,

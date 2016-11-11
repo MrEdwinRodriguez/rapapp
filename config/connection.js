@@ -10,7 +10,7 @@ var connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: 'sigma101',
-    database: 'rapapp'
+    database: 'rapapp_db'
 })
 }
 

@@ -127,7 +127,7 @@ router.post('/spitbars/login', function(req, res) {
 				 
 				 email = user.email;				 
 				 uid = user.uid;
-
+				 console.log(uid)
 				var colName = ['uid'];
 				var colVal= [uid];
 			// var colVal = [newUserName, newUserEmail, newUserType];
