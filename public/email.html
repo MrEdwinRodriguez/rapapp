@@ -210,22 +210,30 @@ limitations under the License.
     </div>
   </header>
 
-  <main class="mdl-layout__content mdl-color--grey-100">
-    <div class="mdl-cell mdl-cell--12-col mdl-cell--12-col-tablet mdl-grid">
+  <form method='post' action="/spitbars/reset">
 
-  
-  
+  <main class="mdl-layout__content mdl-color--grey-100">
+   
+
+      <!-- Container for the demo -->
+      <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-cell--12-col-tablet mdl-cell--12-col-desktop">
+    <!--  -->
+        <div class="mdl-card__supporting-text mdl-color-text--grey-600">
+          <p>Enter an email to reset your password</p>
+
+          <input class="mdl-textfield__input" style="display:inline;width:auto;" type="text" id="email" name="email" placeholder="Email"/>
+
 
           &nbsp;&nbsp;&nbsp;
           <button class="mdl-button mdl-js-button mdl-button--raised" id="quickstart-password-reset" name="verify-email">Send Password Reset Email</button>
 
-          <!-- Container where we'll display the user details -->
 
-        <!-- </div> -->
-      <!-- </div> -->
+        </div>
+      </div>
 
-    </div>
+   
   </main>
-</div>
+  </form>
+<!-- </div> -->
 </body>
 </html>

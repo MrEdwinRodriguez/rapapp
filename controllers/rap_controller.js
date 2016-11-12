@@ -29,6 +29,12 @@ router.get("/dashboard", function (req, res) {
 });
 
 
+router.get("/reset", function (req, res) {
+	// res.sendfile(__dirname + "../public/signup.html");
+	res.sendFile(path.join(__dirname,'../public/email.html'));
+});
+
+
 
 router.post('/spitbars/newuser', function(req, res) {
 
@@ -127,7 +133,7 @@ router.post('/spitbars/login', function(req, res) {
 				 
 				 email = user.email;				 
 				 uid = user.uid;
-				 console.log(uid)
+				 // console.log(uid)
 				var colName = ['uid'];
 				var colVal= [uid];
 			// var colVal = [newUserName, newUserEmail, newUserType];
@@ -157,10 +163,34 @@ router.post('/spitbars/login', function(req, res) {
 				
 				 }; 
 
-
-
-
 });
 
 
+router.post('/spitbars/reset', function(req, res) {
+	
+    
+      var email = req.body.email;
+      console.log(email)
+      // [START sendpasswordemail]
+      firebase.auth().sendPasswordResetEmail(email).then(function() {
+        // Password Reset Email Sent!
+        // [START_EXCLUDE]
+        alert('Password Reset Email Sent!');
+        // [END_EXCLUDE]
+      }).catch(function(error) {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        // [START_EXCLUDE]
+        if (errorCode == 'auth/invalid-email') {
+          alert(errorMessage);
+        } else if (errorCode == 'auth/user-not-found') {
+          alert(errorMessage);
+        }
+        console.log(error);
+        // [END_EXCLUDE]
+      });
+
+
+});
 module.exports = router;
