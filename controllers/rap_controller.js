@@ -105,23 +105,20 @@ router.post('/spitbars/login', function(req, res) {
 
 	
 
-	 firebase.auth().createUserWithEmailAndPassword(userEmail, userPassword).catch(function(error) {
-        // Handle Errors here.
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        // [START_EXCLUDE]
-
-
-
-			
-        if (errorCode == 'auth/weak-password') {
-          console.log('The password is too weak.');
-        } else {
-          console.log(errorMessage);
-        }
-        console.log(error);
-        // [END_EXCLUDE]
-      });
+	        firebase.auth().signInWithEmailAndPassword(userEmail, userPassword).catch(function(error) {
+          // Handle Errors here.
+          var errorCode = error.code;
+          var errorMessage = error.message;
+          // [START_EXCLUDE]
+          if (errorCode === 'auth/wrong-password') {
+            alert('Wrong password.');
+          } else {
+            alert(errorMessage);
+          }
+          console.log(error);
+          document.getElementById('quickstart-sign-in').disabled = false;
+          // [END_EXCLUDE]
+        });
 
 // session begins here
 	 		var user = firebase.auth().currentUser;
@@ -140,7 +137,7 @@ router.post('/spitbars/login', function(req, res) {
 
 
 				rap.select('users', colName, colVal, function(user){
-
+					console.log(user.id)
                 req.session.user_id = user.id;
                 req.session.first_name = user.first_name;
                 req.session.last_name = user.last_name;
