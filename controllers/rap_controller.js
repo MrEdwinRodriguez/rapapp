@@ -128,7 +128,7 @@ router.post('/spitbars/login', function(req, res) {
 			var name, email, photoUrl, uid;
 
 
-console.log(user)
+console.log(user.uid)
 				if (user != null) {
 				 console.log('checking if')
 				 email = user.email;				 
@@ -140,6 +140,7 @@ console.log(user)
 console.log('calling db')
 
 				rap.selectUser('users', colName, colVal, function(user){
+					console.log(user)
 					
                 req.session.user_id = user.id;
                 req.session.first_name = user.firstname;
@@ -155,9 +156,16 @@ console.log('calling db')
                 console.log("Token")
                 console.log(token)
 
+                console.log(user[0])
+                console.log(user[0].id)
 
-
-				res.redirect('/dashboard')
+			res.render('dashboard/', {
+            // layout: 'dashboard',
+            title: 'User Dashboard',
+            title_tag: 'manage your sites and devices',
+            user: user[0]
+            
+        });
 				});
 
 				
