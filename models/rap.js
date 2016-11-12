@@ -9,8 +9,11 @@ var rap = {
 		});
 	},
 
-	selectUser: function(cb) {
-		orm.allFrom('users', function(res){
+	selectUser: function(table, col, val,  cb) {
+		console.log('hello')
+		console.log( col)
+		console.log(val)
+		orm.allFrom(table, col, val, function(res){
 			cb(res);
 		});
 	},	

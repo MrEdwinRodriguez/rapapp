@@ -3,6 +3,7 @@ var router = express.Router();
 var path = require('path');
 var rap = require('../models/rap.js');
 var firebase = require('firebase');
+var jwt = require('jsonwebtoken');
 var app = firebase.initializeApp({ apiKey: "AIzaSyB-FKM1CKZpjJPzlfIk6xT4afP6ZGQ_KgM",
     authDomain: "spit-bars.firebaseapp.com",
     databaseURL: "https://spit-bars.firebaseio.com",
@@ -111,41 +112,43 @@ router.post('/spitbars/login', function(req, res) {
           var errorMessage = error.message;
           // [START_EXCLUDE]
           if (errorCode === 'auth/wrong-password') {
-            alert('Wrong password.');
+            console.log('Wrong password.');
           } else {
-            alert(errorMessage);
+            console.log(errorMessage);
           }
           console.log(error);
           document.getElementById('quickstart-sign-in').disabled = false;
           // [END_EXCLUDE]
         });
 
+	        console.log('firebase done')
 // session begins here
 	 		var user = firebase.auth().currentUser;
+	 		 console.log('still checking FB')
 			var name, email, photoUrl, uid;
 
 
-
+console.log(user)
 				if (user != null) {
-				 
+				 console.log('checking if')
 				 email = user.email;				 
 				 uid = user.uid;
 				 // console.log(uid)
 				var colName = ['uid'];
 				var colVal= [uid];
 			// var colVal = [newUserName, newUserEmail, newUserType];
+console.log('calling db')
 
-
-				rap.select('users', colName, colVal, function(user){
-					console.log(user.id)
+				rap.selectUser('users', colName, colVal, function(user){
+					
                 req.session.user_id = user.id;
-                req.session.first_name = user.first_name;
-                req.session.last_name = user.last_name;
+                req.session.first_name = user.firstname;
+                req.session.last_name = user.lastname;
                 req.session.user_email = user.email;
 
                 var token = jwt.sign({
                     password_hash: user.password_hash
-                }, app.get('jwtSecret'), {
+                }, 'password', {
                     expiresIn: 60 * 60 * 15
                 })
 
