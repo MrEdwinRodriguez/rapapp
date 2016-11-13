@@ -124,7 +124,7 @@ router.post('/spitbars/login', function(req, res) {
 	        console.log('firebase done')
 // session begins here
 	 		var user = firebase.auth().currentUser;
-	 		 console.log('still checking FB')
+	 		 console.log('still checking FB line 127')
 			var name, email, photoUrl, uid;
 
 
