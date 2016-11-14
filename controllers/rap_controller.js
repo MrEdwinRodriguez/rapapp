@@ -128,7 +128,7 @@ router.post('/spitbars/login', function(req, res) {
 			var name, email, photoUrl, uid;
 
 
-console.log(user.uid)
+// console.log(user.uid)
 				if (user != null) {
 				 console.log('checking if')
 				 email = user.email;				 
@@ -198,6 +198,16 @@ router.post('/spitbars/reset', function(req, res) {
         console.log(error);
         // [END_EXCLUDE]
       });
+
+
+});
+
+router.post('/spitbars/upload', function(req, res) {
+	
+    console.log(req.body)
+    console.log(req.body.file)
+     
+      
 
 
 });

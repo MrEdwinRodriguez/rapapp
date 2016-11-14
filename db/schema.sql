@@ -14,11 +14,11 @@ CREATE TABLE users
 	PRIMARY KEY (id)
 );
 
-CREATE TABLE submission
+CREATE TABLE recordings
 (
 	id int NOT NULL AUTO_INCREMENT,
-	user_id INT NOT NULL,
-	user_input(20000) NOT NULL,
+	uid INT NOT NULL,
+	recordings BLOB NOT NULL,
 	PRIMARY KEY (id)
 );
 
