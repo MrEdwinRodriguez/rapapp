@@ -8,5 +8,6 @@ MySQL dtabase
 2.  In terminal go to the repo folder.
 3.  Set up your database.  Use schema in db folder.
 4.  Make sure host, username, and password are correct in connection.js located in cofig folder. 
-5.  Run command node server.js in terminal.
-6.  In you chrome browser, go to localhost8080.
+5.	Run command npm install in terminal.
+6.  Run command node server.js in terminal.
+7.  In you chrome browser, go to localhost8080.

@@ -3,6 +3,8 @@ var router = express.Router();
 var path = require('path');
 var rap = require('../models/rap.js');
 var firebase = require('firebase');
+var multer  = require('multer');
+var uploads = multer({ dest: '../public/uploads/' });
 var jwt = require('jsonwebtoken');
 var app = firebase.initializeApp({ apiKey: "AIzaSyB-FKM1CKZpjJPzlfIk6xT4afP6ZGQ_KgM",
     authDomain: "spit-bars.firebaseapp.com",
@@ -200,15 +202,20 @@ router.post('/spitbars/reset', function(req, res) {
       });
 
 
+
 });
 
-router.post('/spitbars/upload', function(req, res) {
+
+
+// router.post('/spitbars/upload', function(req, res) {
+
+router.post('/spitbars/upload', uploads.single('avatar'), function (req, res, next) {	
+		
 	
-    console.log(req.body)
-    console.log(req.body.file)
-     
-      
-
-
+	console.log(req.files);
+	res.send(req.files);
 });
+
+
 module.exports = router;
+
