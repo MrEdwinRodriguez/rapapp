@@ -64,6 +64,25 @@ var rap = require('./controllers/rap_controller');
 // var rap = require('./controllers/rap')
 app.use('/', rap);
 
+app.use(multer({
+   dest: './public/uploads/',
+   limits: {
+   //     fieldNameSize: 50,
+   //     files: 5,
+   //     fields: 3,
+   //     fileSize: (1024 * 1024) * 100
+   },
+   rename: function(fieldname, filename) {
+       return filename;
+   },
+   onFileUploadStart: function(file) {
+       console.log('Starting file upload process.');
+       // if (file.mimetype !== 'text/csv' && file.mimetype !== 'text/txt') {
+       //     return false;
+       // }
+   },
+   inMemory: true
+}).any());
 
 
 
