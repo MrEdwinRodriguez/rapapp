@@ -36,8 +36,8 @@
 
                 <form action="/spitbars/upload" method = 'post' enctype="multipart/form-data">
                     <label for='file'>Upload Image</label>
-                    <input type="file" name="file"/>
-                    <input type="submit" name='submit' value="upload"/>
+                    <input type="file" name="file" accept="image/*"/>
+                    <input type="submit" name='submit' value="submit"/>
 
                 </form>
 
@@ -52,7 +52,12 @@
                 <button type="button" class='action_btn'>Upload Music</button><br> 
                 </div>
                 </div>
-            <div class="col-xs-6 col-md-4">.col-xs-6 .col-md-4</div>
+            <div class="col-xs-6 col-md-4">
+                    <audio controls>
+
+                    </audio>
+
+            </div>
         </div> 
     </div>
 </div>
