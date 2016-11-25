@@ -10,7 +10,7 @@ var FileStore = require('session-file-store')(session);
 var multer = require('multer');
 var upload = multer({ dest: './public/uploads/' });
 var exphbs = require('express-handlebars');
-
+var router = express.Router()
 
 //tells not to create express server
 var app = express(); 
@@ -65,27 +65,35 @@ var rap = require('./controllers/rap_controller');
 // var rap = require('./controllers/rap')
 app.use('/', rap);
 
-// app.use(multer({
-//    dest: './public/uploads/',
-//    // limits: {
-//    // //     fieldNameSize: 50,
-//    // //     files: 5,
-//    // //     fields: 3,
-//    // //     fileSize: (1024 * 1024) * 100
-//    // },
-//    rename: function(fieldname, filename) {
-//        return filename;
-//    },
-//    onFileUploadStart: function(file) {
-//        console.log('Starting file upload process.');
-//        // if (file.mimetype !== 'text/csv' && file.mimetype !== 'text/txt') {
-//        //     return false;
-//        // }
-//    },
-//    inMemory: true
-// }).any());
+app.use(multer({
+   dest: './public/uploads/',
+   // limits: {
+   // //     fieldNameSize: 50,
+   // //     files: 5,
+   // //     fields: 3,
+   // //     fileSize: (1024 * 1024) * 100
+   // },
+   rename: function(fieldname, filename) {
+       return filename;
+   },
+   onFileUploadStart: function(file) {
+       console.log('Starting file upload process.');
+       // if (file.mimetype !== 'text/csv' && file.mimetype !== 'text/txt') {
+       //     return false;
+       // }
+   },
+   inMemory: true
+}).any());
 
+// app.post('/spitbars/upload', upload.single('file'), function (req, res, next) {
+    
+//     router.post('/spitbars/upload', upload.single('someFile') ,function (req, res, next) {
+//         console.log(req)
+//         console.log(req.body);// {"someParam": "someValue"}
+//         console.log(someParam.someValue)
+//         res.send(req.files);
 
+// });
 
 
 // LISTENER

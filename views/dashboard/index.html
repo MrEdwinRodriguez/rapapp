@@ -36,7 +36,9 @@
 
                 <form action="/spitbars/upload" method = 'post' enctype="multipart/form-data">
                     <label for='file'>Upload Image</label>
-                    <input type="file" name="file" accept="image/*"/>
+                   <!--  <input type="file" name="file" id="file" accept="image/*"/> -->
+                       <input type="file" name="someFile" accept="image/*"/>
+                        <input type="hidden" name="someParam" value="someValue"/>
                     <input type="submit" name='submit' value="submit"/>
 
                 </form>

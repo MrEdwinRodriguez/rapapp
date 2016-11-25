@@ -4,6 +4,8 @@ var path = require('path');
 var rap = require('../models/rap.js');
 var firebase = require('firebase');
 var multer  = require('multer');
+var FormData = require('form-data');
+var fs = require('fs');
 var upload = multer({ dest: '../public/uploads/' });
 var jwt = require('jsonwebtoken');
 var app = firebase.initializeApp({ apiKey: "AIzaSyB-FKM1CKZpjJPzlfIk6xT4afP6ZGQ_KgM",
@@ -54,6 +56,7 @@ router.post('/spitbars/newuser', function(req, res) {
 	
 
 	 firebase.auth().createUserWithEmailAndPassword(newUserEmail, newUserPassword).catch(function(error) {
+      
         // Handle Errors here.
         var errorCode = error.code;
         var errorMessage = error.message;
@@ -89,7 +92,7 @@ router.post('/spitbars/newuser', function(req, res) {
 			res.redirect('/dashboard')
 				});
 				}
-	 		// variable stores name of columes in DB
+	 		
 
 
 
@@ -108,11 +111,15 @@ router.post('/spitbars/login', function(req, res) {
 
 	
 
-	        firebase.auth().signInWithEmailAndPassword(userEmail, userPassword).catch(function(error) {
+	        firebase.auth().signInWithEmailAndPassword(userEmail, userPassword)
+
+
+          .catch(function(error) {
           // Handle Errors here.
           var errorCode = error.code;
           var errorMessage = error.message;
           // [START_EXCLUDE]
+          
           if (errorCode === 'auth/wrong-password') {
             console.log('Wrong password.');
           } else {
@@ -123,21 +130,14 @@ router.post('/spitbars/login', function(req, res) {
           // [END_EXCLUDE]
         });
 
-	        console.log('firebase done')
-// session begins here
-	 		var user = firebase.auth().currentUser;
-	 		 console.log('still checking FB line 127')
-			var name, email, photoUrl, uid;
-
-
-// console.log(user.uid)
-				if (user != null) {
+	        
+				if (userEmail) {
 				 console.log('checking if')
-				 email = user.email;				 
-				 uid = user.uid;
+				 email = userEmail;				 
+				
 				 // console.log(uid)
-				var colName = ['uid'];
-				var colVal= [uid];
+				var colName = ['email'];
+				var colVal= [email];
 			// var colVal = [newUserName, newUserEmail, newUserType];
 console.log('calling db')
 
@@ -162,7 +162,7 @@ console.log('calling db')
                 console.log(user[0].id)
 
 			res.render('dashboard/', {
-            // layout: 'dashboard',
+            
             title: 'User Dashboard',
             title_tag: 'manage your sites and devices',
             user: user[0]
@@ -207,17 +207,33 @@ router.post('/spitbars/reset', function(req, res) {
 
 
 
+    router.post('/spitbars/upload', upload.single('someFile') ,function (req, res, next) {
+        
+        console.log(req.files[0].originalname);// {"someParam": "someValue"}
+        console.log(req.files[0].fieldname);
+        console.log(req.files[0].buffer)
+        res.send(req.files[0].buffer);
+
+});
 
 
-router.post('/spitbars/upload', function (req, res, next) {	
+
+// router.post('/spitbars/upload', function (req, res, next) {	
 			
 
+// var formData = new FormData();
+// formData.append("file", ("#file").req.files;
+// // formData.append("databaseName", $('#database_name').val().trim());
+// // formData.append("tableName", $('#table_name').val().trim());
+// // formData.append("delete", $('#delete').prop("checked"));
+// var url = window.location.origin + "/spitbars/upload";
 
 
 
-	console.log(req.files);
-	res.send(req.files);
-});
+
+// 	console.log(req.files);
+// 	res.send(req.files);
+// });
 
 
 
