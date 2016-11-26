@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width">
     <title>Recorder</title>	
     <link href="../../public/assets/styles/app.css" rel="stylesheet" type="text/css">
+    <link href="../../public/assets/styles/style.css" rel="stylesheet" type="text/css">
     <link href="../../public/assets/styles/install-button.css" rel="stylesheet" type="text/css">
   </head>
   <body>
@@ -12,9 +13,15 @@
     <div class="wrapper">
 
       <header>
-        <h1>Web dictaphone</h1>
-      </header>
+        <h1>Spit Bars</h1>
+      </header>     
+<h3>{{user.firstname}} {{user.lastname}}</h3>
 
+
+<div id='topicBox'>
+<h2>TOPIC:</h2>
+<div id='topic'></div>
+</div>
       <section class="main-controls">
         <canvas class="visualizer"></canvas>
         <div id="buttons">
@@ -34,6 +41,7 @@
    
   
     <script src="../../public/assets/scripts/install.js"></script>  
+    <script src="../../public/assets/scripts/random.js"></script> 
 
     <!-- Below is your custom application script -->
     <script src="../../public/assets/scripts/app.js"></script>

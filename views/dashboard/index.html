@@ -20,6 +20,10 @@
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
+<!-- inset recorder css -->
+    <link href="../../public/assets/styles/app.css" rel="stylesheet" type="text/css">
+    <link href="../../public/assets/styles/install-button.css" rel="stylesheet" type="text/css">
+
 </head>
    
 <body>
@@ -55,9 +59,26 @@
                 </div>
                 </div>
             <div class="col-xs-6 col-md-4">
-                    <audio controls>
 
-                    </audio>
+    <div class="wrapper">
+
+
+      <section class="main-controls">
+        <canvas class="visualizer"></canvas>
+        <div id="buttons">
+          <button class="record">Record</button>
+          <button class="stop">Stop</button>
+        </div>
+      </section>
+
+      <section class="sound-clips">
+
+       
+
+      </section>
+
+    </div>
+
 
             </div>
         </div> 
@@ -70,6 +91,13 @@
 
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
+
+
+<!-- insert recorder scripts -->
+    <script src="../../public/assets/scripts/install.js"></script>  
+
+    <!-- Below is your custom application script -->
+    <script src="../../public/assets/scripts/app.js"></script>    
 
 <style>
 

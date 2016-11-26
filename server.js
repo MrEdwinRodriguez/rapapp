@@ -49,6 +49,10 @@ app.use(session({
     store: new FileStore()
 }));
 
+
+
+
+
 app.use('/', express.static(__dirname + '/public'));
 
 // this sets folder where views will live
@@ -65,14 +69,16 @@ var rap = require('./controllers/rap_controller');
 // var rap = require('./controllers/rap')
 app.use('/', rap);
 
+
+
 app.use(multer({
    dest: './public/uploads/',
-   // limits: {
-   // //     fieldNameSize: 50,
-   // //     files: 5,
-   // //     fields: 3,
-   // //     fileSize: (1024 * 1024) * 100
-   // },
+   limits: {
+       fieldNameSize: 50,
+       files: 5,
+       fields: 3,
+       fileSize: (1024 * 1024) * 100
+   },
    rename: function(fieldname, filename) {
        return filename;
    },
@@ -84,6 +90,7 @@ app.use(multer({
    },
    inMemory: true
 }).any());
+
 
 // app.post('/spitbars/upload', upload.single('file'), function (req, res, next) {
     

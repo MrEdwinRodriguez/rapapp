@@ -22,6 +22,10 @@ router.get('/', function(req,res) {
 		res.sendFile(path.join(__dirname,'../public/index.html'));
 });
 
+router.get('/recorder', function(req,res) {
+    res.sendFile(path.join(__dirname,'../views/dashboard/recorder.html'));
+});
+
 
 router.get("/signup", function (req, res) {
 	// res.sendfile(__dirname + "../public/signup.html");
@@ -212,6 +216,9 @@ router.post('/spitbars/reset', function(req, res) {
         console.log(req.files[0].originalname);// {"someParam": "someValue"}
         console.log(req.files[0].fieldname);
         console.log(req.files[0].buffer)
+
+
+
         res.send(req.files[0].buffer);
 
 });
