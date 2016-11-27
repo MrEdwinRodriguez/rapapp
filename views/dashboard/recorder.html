@@ -7,6 +7,17 @@
     <link href="../../public/assets/styles/app.css" rel="stylesheet" type="text/css">
     <link href="../../public/assets/styles/style.css" rel="stylesheet" type="text/css">
     <link href="../../public/assets/styles/install-button.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Courgette|Permanent+Marker" rel="stylesheet">
+
+    <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
   </head>
   <body>
 
@@ -17,11 +28,19 @@
       </header>     
 <h3>{{user.firstname}} {{user.lastname}}</h3>
 
-
-<div id='topicBox'>
-<h2>TOPIC:</h2>
-<div id='topic'></div>
+<div class='container'>
+<div class="row">
+  
+  <div class="col-md-12">
+    <div id='topicBox'>
+      <h3>TOPIC:</h3>
+      <div id='topic'></div>
+      </div>
+    </div>
+  </div>
 </div>
+
+
       <section class="main-controls">
         <canvas class="visualizer"></canvas>
         <div id="buttons">
