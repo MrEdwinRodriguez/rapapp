@@ -14,6 +14,7 @@ var stop = document.querySelector('.stop');
 var soundClips = document.querySelector('.sound-clips');
 var canvas = document.querySelector('.visualizer');
 
+
 // disable stop button while not recording
 
 stop.disabled = true;
@@ -23,6 +24,8 @@ stop.disabled = true;
 var audioCtx = new (window.AudioContext || webkitAudioContext)();
 var canvasCtx = canvas.getContext("2d");
 
+
+
 //main block for doing the audio recording
 
 if (navigator.getUserMedia) {
@@ -30,6 +33,8 @@ if (navigator.getUserMedia) {
 
   var constraints = { audio: true };
   var chunks = [];
+
+  console.log('a' + chunks)
 
   var onSuccess = function(stream) {
     var mediaRecorder = new MediaRecorder(stream);
@@ -67,6 +72,8 @@ if (navigator.getUserMedia) {
       var clipLabel = document.createElement('p');
       var audio = document.createElement('audio');
       var deleteButton = document.createElement('button');
+
+      console.log(audio)
      
       clipContainer.classList.add('clip');
       audio.setAttribute('controls', '');
@@ -86,8 +93,10 @@ if (navigator.getUserMedia) {
 
       audio.controls = true;
       var blob = new Blob(chunks, { 'type' : 'audio/ogg; codecs=opus' });
+      console.log(blob)
       chunks = [];
       var audioURL = window.URL.createObjectURL(blob);
+      console.log(audioURL)
       audio.src = audioURL;
       console.log("recorder stopped");
 
