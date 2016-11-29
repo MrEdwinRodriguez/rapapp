@@ -36,7 +36,7 @@
 
             <div class="col-xs-6 col-md-4">
                 <h3>{{user.firstname}} {{user.lastname}}</h3>
-                <h4>{{user.lastname}}</h4>   
+                <h4>{{title}}</h4>   
 
                 <!-- <form action="/spitbars/upload" method = 'post' enctype="multipart/form-data"> -->
       <!--               <label for='file'>Upload Image</label>
@@ -120,12 +120,40 @@
     // creat storage ref
     var storageRef = firebase.storage().ref('profilepics/' + file.name)
     // upload file
-    var tast = storageRef.put(file);
-    // update progress bar
-    // task.on('state_change',
-    //     function
-    //     )
+    var task = storageRef.put(file);
+ 
+ 
+task.on('state_changed', function(snapshot){
+              // Observe state change events such as progress, pause, and resume
+              // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+              var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+              console.log('Upload is ' + progress + '% done');
+              switch (snapshot.state) {
+                case firebase.storage.TaskState.PAUSED: // or 'paused'
+                  console.log('Upload is paused');
+                  break;
+                case firebase.storage.TaskState.RUNNING: // or 'running'
+                  console.log('Upload is running');
+                  break;
+              }
+            }, function(error) {
+              // Handle unsuccessful uploads
+            }, function() {
+              // Handle successful uploads oncomplete
+              // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+              var postKey = firebase.database().ref("Posts/").push().key;
+              var downloadURL = task.snapshot.downloadURL;
+              var updates = {};
+              var postData = {
+                url: downloadURL,
+                // user: user.id
+                user: "jj"
+              }
 
+              updates['/Posts'+postKey] = postData;
+              firebase.database().ref().update(updates)
+              console.log(downloadURL)
+            });
 
  });
 
