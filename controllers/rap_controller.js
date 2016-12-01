@@ -3,10 +3,10 @@ var router = express.Router();
 var path = require('path');
 var rap = require('../models/rap.js');
 var firebase = require('firebase');
-var multer  = require('multer');
+// var multer  = require('multer');
 var FormData = require('form-data');
 var fs = require('fs');
-var upload = multer({ dest: '../public/uploads/' });
+// var upload = multer({ dest: '../public/uploads/' });
 var jwt = require('jsonwebtoken');
 var app = firebase.initializeApp({ apiKey: "AIzaSyB-FKM1CKZpjJPzlfIk6xT4afP6ZGQ_KgM",
     authDomain: "spit-bars.firebaseapp.com",
@@ -211,15 +211,32 @@ router.post('/spitbars/reset', function(req, res) {
 
 
 
-    router.post('/spitbars/upload', upload.single('someFile') ,function (req, res, next) {
+    router.post('/spitbars/upload', function (req, res) {
         
-        console.log(req.files[0].originalname);// {"someParam": "someValue"}
-        console.log(req.files[0].fieldname);
-        console.log(req.files[0].buffer)
+        console.log('check upload')
+              firebase.auth().onAuthStateChanged(function(user) {
+              if (user) {
+                // User is signed in.
+                var token = firebase.Auth().currentUser.uid
+                queryDatabase(token);
+              } else {
+                // No user is signed in.
+              }
+            });
+
+    function queryDatabase(token){
+
+      firebase.database().ref('/Posts/' + userId).once('value').then(function(snapshot) {
+      var postArray = snapshot.val().username;
+      console.log(postArray);
+  // ...
+});
+
+
+    }          
 
 
 
-        res.send(req.files[0].buffer);
 
 });
 

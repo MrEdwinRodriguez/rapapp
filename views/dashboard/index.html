@@ -44,10 +44,11 @@
                        <input type="file" name="someFile" accept="image/*"/>
                         <input type="hidden" name="someParam" value="someValue"/>
                     <input type="submit" name='submit' value="submit"/> -->
-
+                    <form method='post' action="/spitbars/login">
                    <progress value="0" max="100" id='uploader'>0%</progress>
-                   <input type='file' value='upload' id='fileButton' /> 
-
+                   <input type='file' value='upload' id='fileButton' />
+                  
+                   </form>
                 <!-- </form> -->
 
 
@@ -147,7 +148,8 @@ task.on('state_changed', function(snapshot){
               var postData = {
                 url: downloadURL,
                 // user: user.id
-                user: "jj"
+                user: "jj",
+                uid: 's3XaYP6IY3O3k3AO6xTQO84EhEh2'
               }
 
               updates['/Posts'+postKey] = postData;
