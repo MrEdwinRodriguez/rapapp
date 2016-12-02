@@ -149,6 +149,7 @@ console.log('calling db')
 					console.log(user)
 					
                 req.session.user_id = user.id;
+                req.session.fb_user_id = user.uid;
                 req.session.first_name = user.firstname;
                 req.session.last_name = user.lastname;
                 req.session.user_email = user.email;
@@ -210,30 +211,85 @@ router.post('/spitbars/reset', function(req, res) {
 });
 
 
-
+// upload image
     router.post('/spitbars/upload', function (req, res) {
-        
-        console.log('check upload')
-              firebase.auth().onAuthStateChanged(function(user) {
-              if (user) {
-                // User is signed in.
-                var token = firebase.Auth().currentUser.uid
-                queryDatabase(token);
-              } else {
-                // No user is signed in.
+      console.log('checking upload');
+
+
+        firebase.initializeApp(app);
+
+// get elements
+ var uploader = document.getElementById('uploader');
+ var fileButton = document.getElementById('fileButton')
+
+ // listen for file selection
+ fileButton.addEventListener('change', function(e){
+
+    // get file
+    var file=e.target.files[0];
+    // creat storage ref
+    var storageRef = firebase.storage().ref('profilepics/' + file.name)
+    // upload file
+    var task = storageRef.put(file);
+ 
+ 
+task.on('state_changed', function(snapshot){
+              // Observe state change events such as progress, pause, and resume
+              // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+              var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+              console.log('Upload is ' + progress + '% done');
+              switch (snapshot.state) {
+                case firebase.storage.TaskState.PAUSED: // or 'paused'
+                  console.log('Upload is paused');
+                  break;
+                case firebase.storage.TaskState.RUNNING: // or 'running'
+                  console.log('Upload is running');
+                  break;
               }
+            }, function(error) {
+              // Handle unsuccessful uploads
+            }, function() {
+              // Handle successful uploads oncomplete
+              // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+              var postKey = firebase.database().ref("Posts/").push().key;
+              var downloadURL = task.snapshot.downloadURL;
+              var updates = {};
+              var postData = {
+                url: downloadURL,
+                // user: user.id
+
+                user: req.session.first_name,
+                uid: req.session.fb_user_id
+              }
+
+              updates['/Posts'+postKey] = postData;
+              firebase.database().ref().update(updates)
+              console.log(downloadURL)
             });
 
-    function queryDatabase(token){
+ });
+        
+  //       console.log('check upload')
+  //             firebase.auth().onAuthStateChanged(function(user) {
+  //             if (user) {
+  //               // User is signed in.
+  //               var token = firebase.Auth().currentUser.uid
+  //               queryDatabase(token);
+  //             } else {
+  //               // No user is signed in.
+  //             }
+  //           });
 
-      firebase.database().ref('/Posts/' + userId).once('value').then(function(snapshot) {
-      var postArray = snapshot.val().username;
-      console.log(postArray);
-  // ...
-});
+  //   function queryDatabase(token){
+
+  //     firebase.database().ref('/Posts/' + userId).once('value').then(function(snapshot) {
+  //     var postArray = snapshot.val().username;
+  //     console.log(postArray);
+  // // ...
+// });
 
 
-    }          
+//     }          
 
 
 
