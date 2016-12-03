@@ -7,10 +7,11 @@ var path = require('path');
 var mysql = require('mysql');
 var session = require('express-session');
 var FileStore = require('session-file-store')(session);
-var multer = require('multer');
-var upload = multer({ dest: './public/uploads/' });
+// var multer = require('multer');
+// var upload = multer({ dest: './public/uploads/' });
 var exphbs = require('express-handlebars');
 var router = express.Router()
+
 
 //tells not to create express server
 var app = express(); 
@@ -28,7 +29,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.text());
 app.use(bodyParser.json({type:'application/vnd.api+json'}));
-app.use(multer().any());
+// app.use(multer().any());
 
 // Sets JSON Web Token Secret for Encryption
 app.set('jwtSecret', "password2");
@@ -71,25 +72,8 @@ app.use('/', rap);
 
 
 
-app.use(multer({
-   dest: './public/uploads/',
-   limits: {
-       fieldNameSize: 50,
-       files: 5,
-       fields: 3,
-       fileSize: (1024 * 1024) * 100
-   },
-   rename: function(fieldname, filename) {
-       return filename;
-   },
-   onFileUploadStart: function(file) {
-       console.log('Starting file upload process.');
-       // if (file.mimetype !== 'text/csv' && file.mimetype !== 'text/txt') {
-       //     return false;
-       // }
-   },
-   inMemory: true
-}).any());
+
+
 
 
 // app.post('/spitbars/upload', upload.single('file'), function (req, res, next) {

@@ -2,190 +2,188 @@
 <html lang="en">
 
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-
     <title>Rapapp-Dashboard</title>
-
-<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
-<!-- Optional theme -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-
-<!-- Latest compiled and minified JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-
-<!-- inset recorder css -->
-    <link href="../../public/assets/styles/app.css" rel="stylesheet" type="text/css">
-    <link href="../../public/assets/styles/install-button.css" rel="stylesheet" type="text/css">
-
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <!-- inset recorder css -->
+    <link href="/assets/styles/app.css" rel="stylesheet" type="text/css">
+    <link href="/assets/styles/install-button.css" rel="stylesheet" type="text/css">
 </head>
-   
+
 <body>
-
-<!--jumbotron -->
-
-<div class='container'>
-    <div class="jumbotron">
-        <div class="row">
-
-            <div class="col-xs-6 col-md-4">
-                <h3>{{user.firstname}} {{user.lastname}}</h3>
-                <h4>{{title}}</h4>   
-
-                <!-- <form action="/spitbars/upload" method = 'post' enctype="multipart/form-data"> -->
-      <!--               <label for='file'>Upload Image</label>
-                  
-                       <input type="file" name="someFile" accept="image/*"/>
-                        <input type="hidden" name="someParam" value="someValue"/>
-                    <input type="submit" name='submit' value="submit"/> -->
-                    <form method='post' action="/spitbars/upload">
-                   <progress value="0" max="100" id='uploader'>0%</progress>
-                   <input type='file' value='upload' id='fileButton' />
-                  <button class="btn btn-primary btn-large btn-block" href="paragraph.html" type='submit'>login</button>
-                   </form>
-                <!-- </form> -->
-
-
+    <!--jumbotron -->
+    <div class='container'>
+        <div class="jumbotron">
+            <div class="row">
+                <div class="col-xs-6 col-md-4">
+                    <h3><div id='userName'>{{user.firstname}} {{user.lastname}}</div></h3>
+                    <h4><div id='email' style='display: none'>{{user.email}}</div></h4>
+                    <div id='profileImage'>
+                        <form method='post' action="/spitbars/upload">
+                            <input type='file' value='upload' id='fileButton' />
+                            <!-- <button class="btn btn-primary btn-large btn-block"  type='submit'>Submit</button> -->
+                        </form>
+                    </div>
+                </div>
+                <div class="col-xs-6 col-md-4">
+                    <div id='hold_buttons'>
+                        <button type="button" class='action_btn'>The Challenge</button>
+                        <br>
+                        <button type="button" class='action_btn'>Record</button>
+                        <br>
+                        <button type="button" class='action_btn'>Upload Music</button>
+                        <br>
+                    </div>
+                </div>
+                <div class="col-xs-6 col-md-4">
+                    <div class="wrapper">
+                        <section class="main-controls">
+                            <canvas class="visualizer"></canvas>
+                            <div id="buttons">
+                                <button class="record">Record</button>
+                                <button class="stop">Stop</button>
+                            </div>
+                        </section>
+                        <section class="sound-clips">
+                        </section>
+                    </div>
+                </div>
             </div>
-
-            <div class="col-xs-6 col-md-4">
-                                  
-                <div id='hold_buttons'> 
-                <button type="button" class='action_btn'>The Challenge</button><br>
-                <button type="button" class='action_btn'>Record</button><br> 
-                <button type="button" class='action_btn'>Upload Music</button><br> 
-                </div>
-                </div>
-            <div class="col-xs-6 col-md-4">
-
-    <div class="wrapper">
-
-
-      <section class="main-controls">
-        <canvas class="visualizer"></canvas>
-        <div id="buttons">
-          <button class="record">Record</button>
-          <button class="stop">Stop</button>
         </div>
-      </section>
-
-      <section class="sound-clips">
-
-       
-
-      </section>
-
     </div>
-
-
-            </div>
-        </div> 
-    </div>
-</div>
- 
-
     <!-- jQuery -->
-    <script src="js/jquery.js"></script>
-
+    <!-- <script src="js/jquery.js"></script> -->
+    <!-- <script src="jquery-3.1.1.min.js"></script> -->
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
+    <!-- firebase -->
+    <script src="https://www.gstatic.com/firebasejs/3.6.1/firebase.js"></script>
+    <script>
+    // Initialize Firebase
+    var config = {
+        apiKey: "AIzaSyB-FKM1CKZpjJPzlfIk6xT4afP6ZGQ_KgM",
+        authDomain: "spit-bars.firebaseapp.com",
+        databaseURL: "https://spit-bars.firebaseio.com",
+        storageBucket: "spit-bars.appspot.com",
+        messagingSenderId: "810792566820"
+    };
+    firebase.initializeApp(config);
 
-<!-- firebase -->
-<script src="https://www.gstatic.com/firebasejs/3.6.1/firebase.js"></script>
-<script>
-  // Initialize Firebase
-//   var config = {
-//     apiKey: "AIzaSyB-FKM1CKZpjJPzlfIk6xT4afP6ZGQ_KgM",
-//     authDomain: "spit-bars.firebaseapp.com",
-//     databaseURL: "https://spit-bars.firebaseio.com",
-//     storageBucket: "spit-bars.appspot.com",
-//     messagingSenderId: "810792566820"
-//   };
-//   firebase.initializeApp(config);
-
-// // get elements
-//  var uploader = document.getElementById('uploader');
-//  var fileButton = document.getElementById('fileButton')
-
-//  // listen for file selection
-//  fileButton.addEventListener('change', function(e){
-
-//     // get file
-//     var file=e.target.files[0];
-//     // creat storage ref
-//     var storageRef = firebase.storage().ref('profilepics/' + file.name)
-//     // upload file
-//     var task = storageRef.put(file);
- 
- 
-// task.on('state_changed', function(snapshot){
-//               // Observe state change events such as progress, pause, and resume
-//               // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-//               var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-//               console.log('Upload is ' + progress + '% done');
-//               switch (snapshot.state) {
-//                 case firebase.storage.TaskState.PAUSED: // or 'paused'
-//                   console.log('Upload is paused');
-//                   break;
-//                 case firebase.storage.TaskState.RUNNING: // or 'running'
-//                   console.log('Upload is running');
-//                   break;
-//               }
-//             }, function(error) {
-//               // Handle unsuccessful uploads
-//             }, function() {
-//               // Handle successful uploads oncomplete
-//               // For instance, get the download URL: https://firebasestorage.googleapis.com/...
-//               var postKey = firebase.database().ref("Posts/").push().key;
-//               var downloadURL = task.snapshot.downloadURL;
-//               var updates = {};
-//               var postData = {
-//                 url: downloadURL,
-//                 // user: user.id
-//                 user: "jj",
-//                 uid: req.session.fb_user_id
-//               }
-
-//               updates['/Posts'+postKey] = postData;
-//               firebase.database().ref().update(updates)
-//               console.log(downloadURL)
-//             });
-
-//  });
+    // get elements
+    var uploader = document.getElementById('uploader');
+    var fileButton = document.getElementById('fileButton')
+    var userName = document.getElementById('userName').innerHTML;
+    var email = document.getElementById('email').innerHTML;
 
 
-</script>    
+    // listen for file selection
+    fileButton.addEventListener('change', function(e) {
+
+        // get file
+        var file = e.target.files[0];
+        // creat storage ref
+        var storageRef = firebase.storage().ref('profilepics/' + file.name)
+            // upload file
+        var task = storageRef.put(file);
 
 
-<!-- insert recorder scripts -->
-    <script src="../../public/assets/scripts/install.js"></script>  
+        task.on('state_changed', function(snapshot) {
+            // Observe state change events such as progress, pause, and resume
+            // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+            var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            console.log('Upload is ' + progress + '% done');
+            switch (snapshot.state) {
+                case firebase.storage.TaskState.PAUSED: // or 'paused'
+                    console.log('Upload is paused');
+                    break;
+                case firebase.storage.TaskState.RUNNING: // or 'running'
+                    console.log('Upload is running');
+                    break;
+            }
+        }, function(error) {
+            // Handle unsuccessful uploads
+        }, function() {
+            // Handle successful uploads oncomplete
+            // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+            var postKey = firebase.database().ref("Posts/").push().key;
+            var downloadURL = task.snapshot.downloadURL;
+            var updates = {};
+            var postData = {
+                url: downloadURL,
+                // user: user.id
+                user: userName,
+                // test
+                email: email
+            }
 
+            updates['/Posts' + postKey] = postData;
+            firebase.database().ref().update(updates)
+            console.log(downloadURL)
+
+        });
+        $.ajax({
+            type: "POST",
+            url: '/spitbars/upload',
+            data: data,
+            success: success,
+            dataType: dataType
+        });
+
+    });
+
+
+    $(document).ready(function() {
+
+        console.log('check upload')
+            // firebase.auth().onAuthStateChanged(function(user) {
+            // if (user) {
+            //   User is signed in.
+            // var token = firebase.Auth().currentUser.uid
+            // console.log(token)
+        queryDatabase();
+        //   } else {
+        //     // No user is signed in.
+        //   }
+        // });
+
+        function queryDatabase() {
+
+            firebase.database().ref('/Posts/' + currentUser.uid).once('value').then(function(snapshot) {
+                var postArray = snapshot.val();
+                console.log('post array')
+                console.log(postArray);
+
+
+            });
+        }
+    });
+    </script>
+    <!-- insert recorder scripts -->
+    <script src="/assets/scripts/install.js"></script>
     <!-- Below is your custom application script -->
-    <script src="../../public/assets/scripts/app.js"></script>    
-
-<style>
-
-.action_btn{
-    background-color: #22A59E;
-    height: 50px;
-    width: 150px;
-    border-radius: 5px;
-
-}
-
-#hold_buttons{
-
-    padding-top: 100px;
-}
-
-</style>
+    <script src="/assets/scripts/app.js"></script>
+    <style>
+    .action_btn {
+        background-color: #22A59E;
+        height: 50px;
+        width: 150px;
+        border-radius: 5px;
+    }
+    
+    #hold_buttons {
+        padding-top: 100px;
+    }
+    </style>
 </body>
-
 
 </html>

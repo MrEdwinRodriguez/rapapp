@@ -29,6 +29,7 @@
     "multer": "^1.2.0",
     "mysql": "^2.12.0",
     "path": "^0.12.7",
+    "recordrtc": "^5.4.0",
     "session-file-store": "^0.2.2"
   }
 }
