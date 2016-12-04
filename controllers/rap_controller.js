@@ -244,8 +244,9 @@ router.post('/spitbars/reset', function(req, res) {
 
 router.post('/spitbars/audio', upload.single("track"), function(req, res) {
     console.log("Uploaded file: ", req.file); // Now it gives me undefined using Ajax!
-
-
+    
+    
+  
 });
 
 
