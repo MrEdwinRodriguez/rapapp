@@ -29,7 +29,7 @@
                     <h3><div id='userName'>{{user.firstname}} {{user.lastname}}</div></h3>
                     <h4><div id='email' style='display: none'>{{user.email}}</div></h4>
                     <div id='profileImage'>
-                        <form method='post' action="/spitbars/upload">
+                        <form method='post' action="/spitbars/upload" enctype="multipart/form-data">
                             <input type='file' value='upload' id='fileButton' />
                             <!-- <button class="btn btn-primary btn-large btn-block"  type='submit'>Submit</button> -->
                         </form>

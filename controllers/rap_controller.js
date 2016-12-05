@@ -67,6 +67,7 @@ var trackStorage = multer.diskStorage({
     filename: function(req, file, callback) {
         // req.body.name should contain the name of track
         callback(null, file.originalname);
+        // callback(null, file.fieldname + '-' + Date.now());
     }
 });
 
@@ -244,7 +245,8 @@ router.post('/spitbars/reset', function(req, res) {
 
 router.post('/spitbars/audio', upload.single("track"), function(req, res) {
     console.log("Uploaded file: ", req.file); // Now it gives me undefined using Ajax!
-    
+      var audioName = req.file.filename;
+      var audioPath = req.file.path;
     
   
 });
