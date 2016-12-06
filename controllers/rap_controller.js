@@ -29,6 +29,9 @@ router.get('/recorder', function(req, res) {
     res.sendFile(path.join(__dirname, '../views/dashboard/recorder.html'));
 });
 
+router.get('/recordings', function(req, res) {
+    res.sendFile(path.join(__dirname, '../views/dashboard/recordings.html'));
+});
 
 router.get("/signup", function(req, res) {
     // res.sendfile(__dirname + "../public/signup.html");
@@ -268,7 +271,7 @@ router.post('/spitbars/audio', upload.single("track"), function(req, res) {
 });
 
 // retrieves audio from MySQL
-router.post('/spitbars/getaudio', upload.single("track"), function(req, res) {
+router.post('/spitbars/recordings', upload.single("track"), function(req, res) {
     
 
     var colName = ['email'];
