@@ -180,7 +180,7 @@ router.post('/spitbars/login', function(req, res) {
         // var colVal = [newUserName, newUserEmail, newUserType];
         console.log('calling db')
 
-        rap.selectUser('users', colName, colVal, function(user) {
+        rap.selectFrom('users', colName, colVal, function(user) {
             console.log(user)
 
             req.session.user_id = user.id;
@@ -245,7 +245,7 @@ router.post('/spitbars/reset', function(req, res) {
 
 });
 
-
+// saves audio to mysql
 router.post('/spitbars/audio', upload.single("track"), function(req, res) {
     console.log("Uploaded file: ", req.file); //audio that was uploaded.
 
@@ -259,7 +259,7 @@ router.post('/spitbars/audio', upload.single("track"), function(req, res) {
 
     var colName = ['email', 'title', 'recording'];
     var colVal = [email, recordingTitle, newAudioPath];
-    console.log("save colName")
+
     rap.insertInto('recordings', colName, colVal, function(data) {
         res.redirect('/dashboard')
     });
@@ -267,12 +267,30 @@ router.post('/spitbars/audio', upload.single("track"), function(req, res) {
 
 });
 
+// retrieves audio from MySQL
+router.post('/spitbars/getaudio', upload.single("track"), function(req, res) {
+    
+
+    var colName = ['email'];
+    var colVal = [email];
+
+  rap.selectFrom('recordings', colName, colVal, function(user) {
+        
+    });
+
+
+});
+
+
+
+
+
+
+
 
 
 // upload image
 router.post('/spitbars/upload ', function(req, res) {
-
-
 
     // console.log(req.body)
 

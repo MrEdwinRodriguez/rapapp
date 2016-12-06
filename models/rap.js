@@ -9,8 +9,7 @@ var rap = {
 		});
 	},
 
-	selectUser: function(table, col, val,  cb) {
-		console.log('hello')
+	selectFrom: function(table, col, val,  cb) {
 		console.log( col)
 		console.log(val)
 		orm.allFrom(table, col, val, function(res){
@@ -18,8 +17,9 @@ var rap = {
 		});
 	},	
 
+
 	insertInto: function(table, col , val, cb) {
-			console.log('reach insert into rap.js')
+			
 		orm.create(table, col, val, cb);	
 	},
 
