@@ -120,9 +120,7 @@
             var updates = {};
             var postData = {
                 url: downloadURL,
-                // user: user.id
                 user: userName,
-                // test
                 email: email
             }
 
@@ -141,6 +139,10 @@
 
     });
 
+    function success(data){
+        console.log(data.message)
+        console.log(data.status)
+    }
 
     $(document).ready(function() {
 

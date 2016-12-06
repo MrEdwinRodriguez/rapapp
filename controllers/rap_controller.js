@@ -186,12 +186,15 @@ router.post('/spitbars/login', function(req, res) {
         rap.selectFrom('users', colName, colVal, function(user) {
             console.log(user)
 
+            user = user[0];
+
             req.session.user_id = user.id;
             req.session.fb_user_id = user.uid;
             req.session.first_name = user.firstname;
             req.session.last_name = user.lastname;
             req.session.user_email = user.email;
 
+            console.log(user.email);
             var token = jwt.sign({
                 password_hash: user.password_hash
             }, 'password', {
@@ -201,16 +204,26 @@ router.post('/spitbars/login', function(req, res) {
             console.log("Token")
             console.log(token)
 
-            console.log(user[0])
-            console.log(user[0].id)
+            console.log(user)
+            console.log(user.id)
 
-            res.render('dashboard/', {
+            retrieveAudio(req.session.user_email, function(audio){
 
-                title: 'User Dashboard',
-                title_tag: 'manage your sites and devices',
-                user: user[0]
+                console.log(audio);
 
-            });
+                res.render('dashboard/', {
+
+                    title: 'User Dashboard',
+                    title_tag: 'manage your sites and devices',
+                    user: user,
+                    audio: audio
+
+
+                });
+
+            })
+
+
         });
 
 
@@ -223,8 +236,8 @@ router.post('/spitbars/reset', function(req, res) {
 
 
     var email = req.body.email;
-    console.log(email)
-        // [START sendpasswordemail]
+
+    // [START sendpasswordemail]
     firebase.auth().sendPasswordResetEmail(email).then(function() {
         // Password Reset Email Sent!
         // [START_EXCLUDE]
@@ -244,7 +257,7 @@ router.post('/spitbars/reset', function(req, res) {
         // [END_EXCLUDE]
     });
 
-    return email;
+
 
 });
 
@@ -252,11 +265,11 @@ router.post('/spitbars/reset', function(req, res) {
 router.post('/spitbars/audio', upload.single("track"), function(req, res) {
     console.log("Uploaded file: ", req.file); //audio that was uploaded.
 
-
+    var email = req.session.user_email;
     var recordingTitle = req.file.originalname;
     var newAudioPath = __dirname + "/uploads/" + req.file.originalname + ".wav";
 
-    console.log(email);
+
     console.log(recordingTitle)
     console.log(newAudioPath)
 
@@ -264,25 +277,33 @@ router.post('/spitbars/audio', upload.single("track"), function(req, res) {
     var colVal = [email, recordingTitle, newAudioPath];
 
     rap.insertInto('recordings', colName, colVal, function(data) {
-        res.redirect('/dashboard')
+
+        // if else statme if fail send message if succes send message(2 json files)
+        res.json({
+            message: 'succesful upload',
+            status: true
+        })
     });
 
 
 });
 
 // retrieves audio from MySQL
-router.post('/spitbars/recordings', upload.single("track"), function(req, res) {
-    
+function retrieveAudio(email, cb) {
 
+    
     var colName = ['email'];
     var colVal = [email];
+    var data;
 
-  rap.selectFrom('recordings', colName, colVal, function(user) {
-        
+    rap.selectFrom('recordings', colName, colVal, function(audio) {
+        data = audio;
+        cb(data);
     });
 
 
-});
+
+}
 
 
 

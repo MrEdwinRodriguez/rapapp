@@ -112,12 +112,10 @@ if (navigator.getUserMedia) {
                 url: '/spitbars/audio',
                 data: formData,
                 name: clipLabel.textContent,
+                success: success,
                 processData: false,
-                contentType: false,
-                success: function(result) {
-
-                }
-
+                contentType: false
+   
             });
 
             console.log("recorder stopped");
