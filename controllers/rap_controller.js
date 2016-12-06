@@ -18,6 +18,7 @@ var app = firebase.initializeApp({
 });
 
 
+
 // routes
 
 router.get('/', function(req, res) {
@@ -66,14 +67,16 @@ var trackStorage = multer.diskStorage({
 
     filename: function(req, file, callback) {
         // req.body.name should contain the name of track
+
         callback(null, file.originalname);
         // callback(null, file.fieldname + '-' + Date.now());
     }
 });
 
+
 var upload = multer({
     storage: trackStorage
-    // fileFilter: trackFileFilter
+        // fileFilter: trackFileFilter
 });
 
 
@@ -238,23 +241,36 @@ router.post('/spitbars/reset', function(req, res) {
         // [END_EXCLUDE]
     });
 
-
+    return email;
 
 });
 
 
 router.post('/spitbars/audio', upload.single("track"), function(req, res) {
-    console.log("Uploaded file: ", req.file); // Now it gives me undefined using Ajax!
-      var audioName = req.file.filename;
-      var audioPath = req.file.path;
-    
-  
+    console.log("Uploaded file: ", req.file); //audio that was uploaded.
+
+
+    var recordingTitle = req.file.originalname;
+    var newAudioPath = __dirname + "/uploads/" + req.file.originalname + ".wav";
+
+    console.log(email);
+    console.log(recordingTitle)
+    console.log(newAudioPath)
+
+    var colName = ['email', 'title', 'recording'];
+    var colVal = [email, recordingTitle, newAudioPath];
+    console.log("save colName")
+    rap.insertInto('recordings', colName, colVal, function(data) {
+        res.redirect('/dashboard')
+    });
+
+
 });
 
 
 
 // upload image
-router.post('/spitbars/upload', function(req, res) {
+router.post('/spitbars/upload ', function(req, res) {
 
 
 

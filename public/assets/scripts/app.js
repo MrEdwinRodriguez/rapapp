@@ -99,17 +99,19 @@ if (navigator.getUserMedia) {
             console.log(audioURL)
             audio.src = audioURL;
 
-            
+
             var formData = new FormData()
-            // formData.append("blob", blob);
-            // formData.append('filename', clipLabel.textContent);
+          
+           
             formData.append('track', blob, clipLabel.textContent+".wav");
+            
 
 
             $.ajax({
                 type: "POST",
                 url: '/spitbars/audio',
                 data: formData,
+                name: clipLabel.textContent,
                 processData: false,
                 contentType: false,
                 success: function(result) {

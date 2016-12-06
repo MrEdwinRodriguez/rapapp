@@ -19,7 +19,7 @@ var rap = {
 	},	
 
 	insertInto: function(table, col , val, cb) {
-			
+			console.log('reach insert into rap.js')
 		orm.create(table, col, val, cb);	
 	},
 
