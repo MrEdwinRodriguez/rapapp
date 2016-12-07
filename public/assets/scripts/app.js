@@ -208,21 +208,33 @@ function visualize(stream) {
 
 
 function postAudio() {
-    console.log('postAudio 1')
-    
 
     $.ajax({
         type: "GET",
         url: '/api/audio',
         success: success
-        
-    }).done(function(response){
 
+    }).done(function(response) {
         console.log(response)
-    })
+        var clipName = response.title;
+        var soundClipsSaved = document.querySelector('.sound-clips-saved');
 
-     console.log('postAudio 2')
-   
+        var clipContainer = document.createElement('article');
+        var clipLabel = document.createElement('p');
+        var audio = document.createElement('audio');
+        var deleteButton = document.createElement('button');
+
+        clipContainer.classList.add('clip');
+        audio.setAttribute('controls', '');
+        deleteButton.textContent = 'Delete';
+        deleteButton.className = 'delete';
+
+        clipContainer.appendChild(audio);
+        clipContainer.appendChild(clipLabel);
+        clipContainer.appendChild(deleteButton);
+        soundClipsSaved.appendChild(clipContainer);
+
+    })
 
 }
 
