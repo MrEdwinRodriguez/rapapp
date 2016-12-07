@@ -207,17 +207,18 @@ router.post('/spitbars/login', function(req, res) {
             console.log(user)
             console.log(user.id)
 
+            // pulls audio from user while they loging
             retrieveAudio(req.session.user_email, function(audio){
 
-                console.log(audio);
+                console.log(audio[17]);
+                var firstSong = audio[17];
 
                 res.render('dashboard/', {
 
                     title: 'User Dashboard',
                     title_tag: 'manage your sites and devices',
                     user: user,
-                    audio: audio
-
+                    audio: firstSong
 
                 });
 
@@ -230,6 +231,27 @@ router.post('/spitbars/login', function(req, res) {
     };
 
 });
+
+
+//get audio
+router.get('/api/audio',function(req,res){
+     retrieveAudio(req.session.user_email, function(audio){
+
+                console.log(audio[17]);
+                var firstSong = audio[17];
+
+                // res.render('dashboard/', {
+
+                //     title: 'User Dashboard',
+                //     title_tag: 'manage your sites and devices',
+                //     user: user,
+                //     audio: firstSong
+
+                // });
+                res.send(firstSong)
+
+            })
+})
 
 
 router.post('/spitbars/reset', function(req, res) {
@@ -267,10 +289,7 @@ router.post('/spitbars/audio', upload.single("track"), function(req, res) {
 
     var email = req.session.user_email;
     var recordingTitle = req.file.originalname;
-    var newAudioPath = __dirname + "/uploads/" + req.file.originalname + ".wav";
-
-
-    console.log(recordingTitle)
+    var newAudioPath = __dirname + "/uploads/" + req.file.originalname ;
     console.log(newAudioPath)
 
     var colName = ['email', 'title', 'recording'];
@@ -335,7 +354,6 @@ router.post('/spitbars/upload ', function(req, res) {
 
         firebase.database().ref('/Posts/' + email).once('value').then(function(snapshot) {
             var postArray = snapshot.val();
-            console.log('post array')
             console.log(postArray);
         });
 

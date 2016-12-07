@@ -101,10 +101,10 @@ if (navigator.getUserMedia) {
 
 
             var formData = new FormData()
-          
-           
-            formData.append('track', blob, clipLabel.textContent+".wav");
-            
+
+
+            formData.append('track', blob, clipLabel.textContent + ".wav");
+
 
 
             $.ajax({
@@ -115,7 +115,7 @@ if (navigator.getUserMedia) {
                 success: success,
                 processData: false,
                 contentType: false
-   
+
             });
 
             console.log("recorder stopped");
@@ -204,3 +204,26 @@ function visualize(stream) {
 
     }
 }
+
+
+
+function postAudio() {
+    console.log('postAudio 1')
+    
+
+    $.ajax({
+        type: "GET",
+        url: '/api/audio',
+        success: success
+        
+    }).done(function(response){
+
+        console.log(response)
+    })
+
+     console.log('postAudio 2')
+   
+
+}
+
+postAudio();
