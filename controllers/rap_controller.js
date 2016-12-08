@@ -237,17 +237,9 @@ router.post('/spitbars/login', function(req, res) {
 router.get('/api/audio',function(req,res){
      retrieveAudio(req.session.user_email, function(audio){
 
-                console.log(audio[17]);
-                var firstSong = audio[17];
+                console.log(audio[31]);
+                var firstSong = audio[31];
 
-                // res.render('dashboard/', {
-
-                //     title: 'User Dashboard',
-                //     title_tag: 'manage your sites and devices',
-                //     user: user,
-                //     audio: firstSong
-
-                // });
                 res.send(firstSong)
 
             })

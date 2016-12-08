@@ -216,6 +216,7 @@ function postAudio() {
         console.log(response)
         var clipName = response.title;
         console.log(clipName)
+
         var soundClipsSaved = document.querySelector('.sound-clips-saved');
 
         var clipContainer = document.createElement('article');
@@ -237,26 +238,21 @@ function postAudio() {
 
 
         audio.controls = true;
+
         var binaryData = [];
         binaryData.push(response);
-        var audioURL = window.URL.createObjectURL(new Blob(binaryData, { 'type': 'audio/ogg; codecs=opus' }))
+        var audioURL = window.URL.createObjectURL(new Blob(binaryData, { 'type': 'audio/wav; codecs=opus' }))
+
         console.log(audioURL)
         audio.src = audioURL;
+        console.log(audio.src)
 
         deleteButton.onclick = function(e) {
             evtTgt = e.target;
             evtTgt.parentNode.parentNode.removeChild(evtTgt.parentNode);
         }
+visualize(stream);
 
-        clipLabel.onclick = function() {
-            var existingName = clipLabel.textContent;
-            var newClipName = prompt('Enter a new name for your sound clip?');
-            if (newClipName === null) {
-                clipLabel.textContent = existingName;
-            } else {
-                clipLabel.textContent = newClipName;
-            }
-        }
 
 
 
