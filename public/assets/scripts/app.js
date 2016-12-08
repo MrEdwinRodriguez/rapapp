@@ -95,18 +95,16 @@ if (navigator.getUserMedia) {
             var blob = new Blob(chunks, { 'type': 'audio/ogg; codecs=opus' });
             console.log(blob)
             chunks = [];
+            console.log(chunks)
             var audioURL = window.URL.createObjectURL(blob);
             console.log(audioURL)
             audio.src = audioURL;
 
-
+            // pacakage for ajax 
             var formData = new FormData()
-
-
             formData.append('track', blob, clipLabel.textContent + ".wav");
 
-
-
+            // sending to route spitbars/audio
             $.ajax({
                 type: "POST",
                 url: '/spitbars/audio',
@@ -217,6 +215,7 @@ function postAudio() {
     }).done(function(response) {
         console.log(response)
         var clipName = response.title;
+        console.log(clipName)
         var soundClipsSaved = document.querySelector('.sound-clips-saved');
 
         var clipContainer = document.createElement('article');
@@ -229,10 +228,37 @@ function postAudio() {
         deleteButton.textContent = 'Delete';
         deleteButton.className = 'delete';
 
+        clipLabel.textContent = clipName;
+
         clipContainer.appendChild(audio);
         clipContainer.appendChild(clipLabel);
         clipContainer.appendChild(deleteButton);
         soundClipsSaved.appendChild(clipContainer);
+
+
+        audio.controls = true;
+        var binaryData = [];
+        binaryData.push(response);
+        var audioURL = window.URL.createObjectURL(new Blob(binaryData, { 'type': 'audio/ogg; codecs=opus' }))
+        console.log(audioURL)
+        audio.src = audioURL;
+
+        deleteButton.onclick = function(e) {
+            evtTgt = e.target;
+            evtTgt.parentNode.parentNode.removeChild(evtTgt.parentNode);
+        }
+
+        clipLabel.onclick = function() {
+            var existingName = clipLabel.textContent;
+            var newClipName = prompt('Enter a new name for your sound clip?');
+            if (newClipName === null) {
+                clipLabel.textContent = existingName;
+            } else {
+                clipLabel.textContent = newClipName;
+            }
+        }
+
+
 
     })
 
