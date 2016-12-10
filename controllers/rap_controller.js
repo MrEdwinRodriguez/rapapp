@@ -278,23 +278,29 @@ router.post('/spitbars/reset', function(req, res) {
 // saves audio to mysql
 router.post('/spitbars/audio', upload.single("track"), function(req, res) {
     console.log("Uploaded file: ", req.file); //audio that was uploaded.
+    console.log(req.body)
 
-    var email = req.session.user_email;
-    var recordingTitle = req.file.originalname;
-    var newAudioPath = __dirname + "/uploads/" + req.file.originalname ;
-    console.log(newAudioPath)
+    // var email = req.session.user_email;
+    // var recordingTitle = req.file.originalname;
+    // console.log(email)
+    // console.log(recordingTitle)
+    // var newAudioPath = __dirname + "/uploads/" + req.file.originalname ;
+    // console.log(newAudioPath)
 
-    var colName = ['email', 'title', 'recording'];
-    var colVal = [email, recordingTitle, newAudioPath];
 
-    rap.insertInto('recordings', colName, colVal, function(data) {
 
-        // if else statme if fail send message if succes send message(2 json files)
-        res.json({
-            message: 'succesful upload',
-            status: true
-        })
-    });
+
+    // var colName = ['email', 'title', 'recording'];
+    // var colVal = [email, recordingTitle, newAudioPath];
+
+    // rap.insertInto('recordings', colName, colVal, function(data) {
+
+    //     // if else statme if fail send message if succes send message(2 json files)
+    //     res.json({
+    //         message: 'succesful upload',
+    //         status: true
+    //     })
+    // });
 
 
 });

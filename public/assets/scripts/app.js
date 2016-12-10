@@ -103,6 +103,7 @@ if (navigator.getUserMedia) {
             // pacakage for ajax 
             var formData = new FormData()
             formData.append('track', blob, clipLabel.textContent + ".wav");
+            console.log(formData)
 
             // sending to route spitbars/audio
             $.ajax({
@@ -226,6 +227,7 @@ function postAudio() {
 
         clipContainer.classList.add('clip');
         audio.setAttribute('controls', '');
+        audio.setAttribute('src', '');
         deleteButton.textContent = 'Delete';
         deleteButton.className = 'delete';
 
