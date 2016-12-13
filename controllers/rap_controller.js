@@ -189,7 +189,7 @@ router.post('/spitbars/login', function(req, res) {
             user = user[0];
 
             req.session.user_id = user.id;
-            req.session.fb_user_id = user.uid;
+            // req.session.fb_user_id = user.uid;
             req.session.first_name = user.firstname;
             req.session.last_name = user.lastname;
             req.session.user_email = user.email;
@@ -208,7 +208,7 @@ router.post('/spitbars/login', function(req, res) {
             console.log(user.id)
 
             // pulls audio from user while they loging
-            retrieveAudio(req.session.user_email, function(audio){
+            retrieveAudio(req.session.user_email, function(audio) {
 
                 console.log(audio[17]);
                 var firstSong = audio[17];
@@ -234,15 +234,15 @@ router.post('/spitbars/login', function(req, res) {
 
 
 //get audio
-router.get('/api/audio',function(req,res){
-     retrieveAudio(req.session.user_email, function(audio){
+router.get('/api/audio', function(req, res) {
+    retrieveAudio(req.session.user_email, function(audio) {
 
-                console.log(audio[31]);
-                var firstSong = audio[31];
+        console.log(audio[31]);
+        var firstSong = audio[31];
 
-                res.send(firstSong)
+        res.send(firstSong)
 
-            })
+    })
 })
 
 
@@ -280,27 +280,32 @@ router.post('/spitbars/audio', upload.single("track"), function(req, res) {
     console.log("Uploaded file: ", req.file); //audio that was uploaded.
     console.log(req.body)
 
-    // var email = req.session.user_email;
-    // var recordingTitle = req.file.originalname;
-    // console.log(email)
-    // console.log(recordingTitle)
-    // var newAudioPath = __dirname + "/uploads/" + req.file.originalname ;
-    // console.log(newAudioPath)
+    var reader = new FileReader()
 
+    reader.onload = function(e) {
+        var arrayBuffer = reader.result;
+    }
 
+    reader.readAsArrayBuffer(file);
 
+    var email = req.session.user_email;
+    var recordingTitle = req.file.originalname;
+    console.log(email)
+    console.log(recordingTitle)
+    var newAudioPath = __dirname + "/uploads/" + req.file.originalname;
+    console.log(newAudioPath)
 
-    // var colName = ['email', 'title', 'recording'];
-    // var colVal = [email, recordingTitle, newAudioPath];
+    var colName = ['email', 'title', 'recording'];
+    var colVal = [email, recordingTitle, newAudioPath];
 
-    // rap.insertInto('recordings', colName, colVal, function(data) {
+    rap.insertInto('recordings', colName, colVal, function(data) {
 
-    //     // if else statme if fail send message if succes send message(2 json files)
-    //     res.json({
-    //         message: 'succesful upload',
-    //         status: true
-    //     })
-    // });
+        // if else statme if fail send message if succes send message(2 json files)
+        res.json({
+            message: 'succesful upload',
+            status: true
+        })
+    });
 
 
 });
@@ -308,7 +313,7 @@ router.post('/spitbars/audio', upload.single("track"), function(req, res) {
 // retrieves audio from MySQL
 function retrieveAudio(email, cb) {
 
-    
+
     var colName = ['email'];
     var colVal = [email];
     var data;

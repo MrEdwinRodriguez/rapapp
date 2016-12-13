@@ -21,11 +21,11 @@ var orm = {
     },
 
     allFrom: function(tableInput, colName, colVal, cb) {
-      // console.log(tableInput);
-      // console.log(colName);
-      // console.log(colVal);
+      console.log(tableInput);
+      console.log(colName);
+      console.log(colVal);
         var queryString = 'SELECT * FROM ' + tableInput + ' WHERE ' + colName + ' = ' +  "'" + colVal + "';";
-        // console.log(queryString)
+        console.log(queryString)
         connection.query(queryString, function(err, result) {
             if (err) throw err;
             cb(result);
