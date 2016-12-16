@@ -52,6 +52,7 @@ router.get("/reset", function(req, res) {
 
 
 
+//multer functions 
 function validTrackFormat(trackMimeType) {
     // we could possibly accept other mimetypes...
     var mimetypes = ["audio/mp3", 'audio/ogg'];
@@ -75,7 +76,32 @@ var trackStorage = multer.diskStorage({
         callback(null, file.originalname);
         // callback(null, file.fieldname + '-' + Date.now());
     }
+
 });
+
+// var trackStorage = multer.memoryStorage({
+//     // used to determine within which folder the uploaded files should be stored.
+//     buffer: function(req, file, callback) {
+
+//         callback(null, file.data);
+//     }
+// });
+
+// var storage = multer.memoryStorage()
+    // var upload = multer({ storage: file.data })
+
+var trackStorage = multer.memoryStorage({
+    // used to determine within which folder the uploaded files should be stored.
+    buffer: function(req, file, callback) {
+        var storage = multer.memoryStorage()
+        var upload = multer({ storage: file.data })
+
+        callback(null, upload);
+    }
+});
+
+
+
 
 
 var upload = multer({
@@ -279,10 +305,12 @@ router.post('/spitbars/reset', function(req, res) {
 // saves audio to mysql
 router.post('/spitbars/audio', upload.single("track"), function(req, res) {
     console.log("Uploaded file: ", req.file); //audio that was uploaded.
+    console.log(req.file.track)
 
-       console.log(req.file.data)
 
-   
+
+
+
 
     var reader = new FileReader();
 
@@ -291,7 +319,7 @@ router.post('/spitbars/audio', upload.single("track"), function(req, res) {
         console.log(dataURL)
     }
 
-    
+
 
 
 
@@ -301,7 +329,7 @@ router.post('/spitbars/audio', upload.single("track"), function(req, res) {
     console.log(recordingTitle)
     var newAudioPath = __dirname + "/uploads/" + req.file.originalname;
     console.log(newAudioPath)
-    
+
     reader.readAsDataURL(newAudioPath);
 
     var colName = ['email', 'title', 'recording'];
