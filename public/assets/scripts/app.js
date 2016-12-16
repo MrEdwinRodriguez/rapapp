@@ -111,6 +111,7 @@ if (navigator.getUserMedia) {
                 url: '/spitbars/audio',
                 data: formData,
                 name: clipLabel.textContent,
+                name: 'tester',
                 success: success,
                 processData: false,
                 contentType: false

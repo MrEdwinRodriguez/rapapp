@@ -9,6 +9,7 @@ var uploadFolder = path.resolve(__dirname, "../public/tracks_folder");
 var FormData = require('form-data');
 var fs = require('fs');
 var jwt = require('jsonwebtoken');
+var FileReader = require('filereader');
 var app = firebase.initializeApp({
     apiKey: "AIzaSyB-FKM1CKZpjJPzlfIk6xT4afP6ZGQ_KgM",
     authDomain: "spit-bars.firebaseapp.com",
@@ -278,15 +279,21 @@ router.post('/spitbars/reset', function(req, res) {
 // saves audio to mysql
 router.post('/spitbars/audio', upload.single("track"), function(req, res) {
     console.log("Uploaded file: ", req.file); //audio that was uploaded.
-    console.log(req.body)
 
-    var reader = new FileReader()
+       console.log(req.file.data)
+
+   
+
+    var reader = new FileReader();
 
     reader.onload = function(e) {
-        var arrayBuffer = reader.result;
+        var dataURL = reader.result;
+        console.log(dataURL)
     }
 
-    reader.readAsArrayBuffer(file);
+    
+
+
 
     var email = req.session.user_email;
     var recordingTitle = req.file.originalname;
@@ -294,6 +301,8 @@ router.post('/spitbars/audio', upload.single("track"), function(req, res) {
     console.log(recordingTitle)
     var newAudioPath = __dirname + "/uploads/" + req.file.originalname;
     console.log(newAudioPath)
+    
+    reader.readAsDataURL(newAudioPath);
 
     var colName = ['email', 'title', 'recording'];
     var colVal = [email, recordingTitle, newAudioPath];
