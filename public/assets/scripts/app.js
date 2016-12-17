@@ -93,6 +93,7 @@ if (navigator.getUserMedia) {
 
             audio.controls = true;
             var blob = new Blob(chunks, { 'type': 'audio/ogg; codecs=opus' });
+           
             console.log(blob)
             chunks = [];
             console.log(chunks)

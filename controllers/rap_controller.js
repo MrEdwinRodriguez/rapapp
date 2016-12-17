@@ -88,7 +88,8 @@ var trackStorage = multer.diskStorage({
 // });
 
 // var storage = multer.memoryStorage()
-    // var upload = multer({ storage: file.data })
+    // var upload = multer({ storage: storage })
+
 
 var trackStorage = multer.memoryStorage({
     // used to determine within which folder the uploaded files should be stored.
@@ -99,8 +100,6 @@ var trackStorage = multer.memoryStorage({
         callback(null, upload);
     }
 });
-
-
 
 
 
@@ -305,23 +304,32 @@ router.post('/spitbars/reset', function(req, res) {
 // saves audio to mysql
 router.post('/spitbars/audio', upload.single("track"), function(req, res) {
     console.log("Uploaded file: ", req.file); //audio that was uploaded.
-    console.log(req.file.track)
+   
 
 
 
+    // var audioURL = window.URL.createObjectURL(blob);
 
 
+ //    var reader = new FileReader();
 
-    var reader = new FileReader();
-
-    reader.onload = function(e) {
-        var dataURL = reader.result;
-        console.log(dataURL)
-    }
-
+ //    reader.onload = function(e) {
+ //        var dataURL = reader.result;
+ //        console.log(dataURL)
+ //    }
 
 
+ // reader.readAsDataURL(newAudioPath);
 
+//  var reader = new FileReader();
+
+// reader.onload = function(e) {
+//   var arrayBuffer = reader.result;
+//   console.log(arrayBuffer)
+// }
+
+// reader.readAsArrayBuffer(req.file.buffer);
+var songBuffer = req.file.buffer;
 
     var email = req.session.user_email;
     var recordingTitle = req.file.originalname;
@@ -330,10 +338,10 @@ router.post('/spitbars/audio', upload.single("track"), function(req, res) {
     var newAudioPath = __dirname + "/uploads/" + req.file.originalname;
     console.log(newAudioPath)
 
-    reader.readAsDataURL(newAudioPath);
+   
 
     var colName = ['email', 'title', 'recording'];
-    var colVal = [email, recordingTitle, newAudioPath];
+    var colVal = [email, recordingTitle, songBuffer];
 
     rap.insertInto('recordings', colName, colVal, function(data) {
 
