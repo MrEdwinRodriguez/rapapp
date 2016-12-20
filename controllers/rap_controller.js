@@ -79,6 +79,7 @@ var trackStorage = multer.diskStorage({
 
 });
 
+// need to try some multer memory storage
 // var trackStorage = multer.memoryStorage({
 //     // used to determine within which folder the uploaded files should be stored.
 //     buffer: function(req, file, callback) {
@@ -263,8 +264,8 @@ router.post('/spitbars/login', function(req, res) {
 router.get('/api/audio', function(req, res) {
     retrieveAudio(req.session.user_email, function(audio) {
 
-        console.log(audio[31]);
-        var firstSong = audio[31];
+        console.log(audio[47]);
+        var firstSong = audio[47];
 
         res.send(firstSong)
 
@@ -327,7 +328,6 @@ router.post('/spitbars/audio', upload.single("track"), function(req, res) {
 //   var arrayBuffer = reader.result;
 //   console.log(arrayBuffer)
 // }
-
 // reader.readAsArrayBuffer(req.file.buffer);
 var songBuffer = req.file.buffer;
 
