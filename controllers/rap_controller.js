@@ -10,6 +10,7 @@ var FormData = require('form-data');
 var fs = require('fs');
 var jwt = require('jsonwebtoken');
 var FileReader = require('filereader');
+
 var app = firebase.initializeApp({
     apiKey: "AIzaSyB-FKM1CKZpjJPzlfIk6xT4afP6ZGQ_KgM",
     authDomain: "spit-bars.firebaseapp.com",
@@ -52,7 +53,11 @@ router.get("/reset", function(req, res) {
 
 
 
+
 //multer functions 
+var storage = multer.memoryStorage();
+
+
 function validTrackFormat(trackMimeType) {
     // we could possibly accept other mimetypes...
     var mimetypes = ["audio/mp3", 'audio/ogg'];
@@ -75,7 +80,10 @@ var trackStorage = multer.diskStorage({
 
         callback(null, file.originalname);
         // callback(null, file.fieldname + '-' + Date.now());
-    }
+    },
+
+    storage: storage
+
 
 });
 
@@ -89,25 +97,25 @@ var trackStorage = multer.diskStorage({
 // });
 
 // var storage = multer.memoryStorage()
-    // var upload = multer({ storage: storage })
+var upload = multer({ storage: storage })
 
 
-var trackStorage = multer.memoryStorage({
-    // used to determine within which folder the uploaded files should be stored.
-    buffer: function(req, file, callback) {
-        var storage = multer.memoryStorage()
-        var upload = multer({ storage: file.data })
+// var trackStorage = multer.memoryStorage({
+//     // used to determine within which folder the uploaded files should be stored.
+//     buffer: function(req, file, callback) {
+//         var storage = multer.memoryStorage()
+//         var upload = multer({ storage: file.data })
 
-        callback(null, upload);
-    }
-});
+//         callback(null, upload);
+//     }
+// });
 
 
 
-var upload = multer({
-    storage: trackStorage
-        // fileFilter: trackFileFilter
-});
+// var upload = multer({
+//     storage: trackStorage
+//         // fileFilter: trackFileFilter
+// });
 
 
 router.post('/spitbars/newuser', function(req, res) {
@@ -264,8 +272,8 @@ router.post('/spitbars/login', function(req, res) {
 router.get('/api/audio', function(req, res) {
     retrieveAudio(req.session.user_email, function(audio) {
 
-        console.log(audio[47]);
-        var firstSong = audio[47];
+        console.log(audio[56]);
+        var firstSong = audio[56];
 
         res.send(firstSong)
 
@@ -305,9 +313,7 @@ router.post('/spitbars/reset', function(req, res) {
 // saves audio to mysql
 router.post('/spitbars/audio', upload.single("track"), function(req, res) {
     console.log("Uploaded file: ", req.file); //audio that was uploaded.
-   
-
-
+  
 
     // var audioURL = window.URL.createObjectURL(blob);
 
@@ -330,11 +336,13 @@ router.post('/spitbars/audio', upload.single("track"), function(req, res) {
 // }
 // reader.readAsArrayBuffer(req.file.buffer);
 var songBuffer = req.file.buffer;
+console.log(songBuffer)
 
     var email = req.session.user_email;
     var recordingTitle = req.file.originalname;
-    console.log(email)
-    console.log(recordingTitle)
+    console.log('email: ' + email)
+    console.log('title: ' + recordingTitle)
+
     var newAudioPath = __dirname + "/uploads/" + req.file.originalname;
     console.log(newAudioPath)
 
