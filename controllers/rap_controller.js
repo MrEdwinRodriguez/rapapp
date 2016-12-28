@@ -272,8 +272,8 @@ router.post('/spitbars/login', function(req, res) {
 router.get('/api/audio', function(req, res) {
     retrieveAudio(req.session.user_email, function(audio) {
 
-        console.log(audio[56]);
-        var firstSong = audio[56];
+        console.log(audio[60]);
+        var firstSong = audio[60];
 
         res.send(firstSong)
 
@@ -318,14 +318,14 @@ router.post('/spitbars/audio', upload.single("track"), function(req, res) {
     // var audioURL = window.URL.createObjectURL(blob);
 
 
- //    var reader = new FileReader();
+    var reader = new FileReader();
 
- //    reader.onload = function(e) {
- //        var dataURL = reader.result;
- //        console.log(dataURL)
- //    }
+reader.onload = function(e) {
+  var arrayBuffer = req.file.buffer;
+  console.log(arrayBuffer)
+}
 
-
+reader.readAsArrayBuffer(req.file.buffer);
  // reader.readAsDataURL(newAudioPath);
 
 //  var reader = new FileReader();
