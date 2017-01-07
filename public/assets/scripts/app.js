@@ -1,7 +1,6 @@
 // fork getUserMedia for multiple browser versions, for the future
 // when more browsers support MediaRecorder
 
-
 navigator.getUserMedia = (navigator.getUserMedia ||
     navigator.webkitGetUserMedia ||
     navigator.mozGetUserMedia ||
@@ -217,8 +216,17 @@ function postAudio() {
 
     }).done(function(response) {
         console.log(response)
-        var clipName = response.title;
-        console.log(clipName)
+        for(var items in response){
+            if(response[items].recording_path)
+                displayMyMusic(response[items]);
+        }
+    })
+}
+
+postAudio();
+function displayMyMusic(response){
+     var clipName = response.title || "My song";
+ //       console.log(clipName)
 
         var soundClipsSaved = document.querySelector('.sound-clips-saved');
 
@@ -242,26 +250,11 @@ function postAudio() {
 
 
         audio.controls = true;
-
-        var binaryData = [];
-        binaryData.push(response);
-        var audioURL = window.URL.createObjectURL(new Blob(binaryData, { 'type': 'audio/wav; codecs=opus' }))
-
-        console.log(audioURL)
-        audio.src = audioURL;
+        audio.src = window.location.protocol+'//'+window.location.host+response.recording_path;
         console.log(audio.src)
-
         deleteButton.onclick = function(e) {
             evtTgt = e.target;
             evtTgt.parentNode.parentNode.removeChild(evtTgt.parentNode);
         }
-visualize(stream);
-
-
-
-
-    })
-
 }
 
-postAudio();

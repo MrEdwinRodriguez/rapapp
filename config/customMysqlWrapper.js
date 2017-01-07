@@ -7,16 +7,8 @@ var mysqlConfig = {
   port:3306,
   multipleStatements: true
 };
-console.log('connection regular')
-if(process.env.JAWSDB_URL){
 
-connection = mysql.createConnection(process.env.JAWSDB_URL);
-
-}
-else{
-    console.log('creating mysql connection....')
-var connection = mysql.createConnection(mysqlConfig)
-}
+console.log('mysql wrapper')
 exports.getConnection = function(done){
 	var connection = mysql.createConnection(mysqlConfig);
 	connection.connect(function(err) {
@@ -46,6 +38,3 @@ exports.getConnection = function(done){
 			//terminating connection
 		//	connection.end();
 }
-
-
-module.exports = connection;

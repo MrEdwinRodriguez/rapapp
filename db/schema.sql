@@ -18,7 +18,9 @@ CREATE TABLE recordings
 (
 	id int NOT NULL AUTO_INCREMENT,
 	uid INT NOT NULL,
-	recordings BLOB NOT NULL,
+	title VARCHAR(100) NOT NULL,
+	recording_path VARCHAR(1000) NOT NULL,
+	email varchar (50) NOT NULL,
 	PRIMARY KEY (id)
 );
 

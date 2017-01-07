@@ -5,12 +5,11 @@ var path = require('path');
 var rap = require('../models/rap.js');
 var firebase = require('firebase');
 var multer = require('multer');
-var uploadFolder = path.resolve(__dirname, "../public/tracks_folder");
 var FormData = require('form-data');
 var fs = require('fs');
 var jwt = require('jsonwebtoken');
 var FileReader = require('filereader');
-
+var mysqlConn = require('../config/customMysqlWrapper.js'); /**Custom mysql wrapper to query db */
 var app = firebase.initializeApp({
     apiKey: "AIzaSyB-FKM1CKZpjJPzlfIk6xT4afP6ZGQ_KgM",
     authDomain: "spit-bars.firebaseapp.com",
@@ -18,7 +17,7 @@ var app = firebase.initializeApp({
     storageBucket: "spit-bars.appspot.com",
     messagingSenderId: "810792566820"
 });
-
+var musicInventory = path.resolve(__dirname, "../public/uploads");
 
 
 // routes
@@ -72,7 +71,7 @@ var trackStorage = multer.diskStorage({
     // used to determine within which folder the uploaded files should be stored.
     destination: function(req, file, callback) {
 
-        callback(null, uploadFolder);
+        callback(null, musicInventory);
     },
 
     filename: function(req, file, callback) {
@@ -87,36 +86,7 @@ var trackStorage = multer.diskStorage({
 
 });
 
-// need to try some multer memory storage
-// var trackStorage = multer.memoryStorage({
-//     // used to determine within which folder the uploaded files should be stored.
-//     buffer: function(req, file, callback) {
-
-//         callback(null, file.data);
-//     }
-// });
-
-// var storage = multer.memoryStorage()
-var upload = multer({ storage: storage })
-
-
-// var trackStorage = multer.memoryStorage({
-//     // used to determine within which folder the uploaded files should be stored.
-//     buffer: function(req, file, callback) {
-//         var storage = multer.memoryStorage()
-//         var upload = multer({ storage: file.data })
-
-//         callback(null, upload);
-//     }
-// });
-
-
-
-// var upload = multer({
-//     storage: trackStorage
-//         // fileFilter: trackFileFilter
-// });
-
+var upload = multer({ storage: trackStorage });
 
 router.post('/spitbars/newuser', function(req, res) {
 
@@ -203,7 +173,7 @@ router.post('/spitbars/login', function(req, res) {
             console.log(errorMessage);
         }
         console.log(error);
-        document.getElementById('quickstart-sign-in').disabled = false;
+       // document.getElementById('quickstart-sign-in').disabled = false;
         // [END_EXCLUDE]
     });
 
@@ -240,20 +210,20 @@ router.post('/spitbars/login', function(req, res) {
             console.log(token)
 
             console.log(user)
-            console.log(user.id)
+            //console.log(user.id)
 
             // pulls audio from user while they loging
             retrieveAudio(req.session.user_email, function(audio) {
 
-                console.log(audio[17]);
-                var firstSong = audio[17];
-
+                console.log(audio);
+//                var firstSong = audio[0]['recordings'];
+                
                 res.render('dashboard/', {
 
                     title: 'User Dashboard',
                     title_tag: 'manage your sites and devices',
                     user: user,
-                    audio: firstSong
+                    myMusic: audio
 
                 });
 
@@ -271,11 +241,7 @@ router.post('/spitbars/login', function(req, res) {
 //get audio
 router.get('/api/audio', function(req, res) {
     retrieveAudio(req.session.user_email, function(audio) {
-
-        console.log(audio[60]);
-        var firstSong = audio[60];
-
-        res.send(firstSong)
+        res.send(audio)
 
     })
 })
@@ -313,52 +279,34 @@ router.post('/spitbars/reset', function(req, res) {
 // saves audio to mysql
 router.post('/spitbars/audio', upload.single("track"), function(req, res) {
     console.log("Uploaded file: ", req.file); //audio that was uploaded.
-  
 
-    // var audioURL = window.URL.createObjectURL(blob);
+/**
+ * Insert audio information to Mysql database
+ */
+var query = "INSERT INTO `recordings` SET ?",
+    values = {
+      uid: req.session.user_id,
+      email:req.session.user_email,
+      title:req.file.originalname,
+      recording_path:'/uploads/'+req.file.originalname
+    };
+mysqlConn.getConnection(function(err,connection){
+    connection.query(query, values, function (er, status) {
+        if(err){
+            console.log('---Error occured saving audio');
+            console.log(err);
+        }
+        else{
+            console.log('++++++ Successfull saved audio ++++++++++');
+            console.log(status);
 
-
-    var reader = new FileReader();
-
-reader.onload = function(e) {
-  var arrayBuffer = req.file.buffer;
-  console.log(arrayBuffer)
-}
-
-reader.readAsArrayBuffer(req.file.buffer);
- // reader.readAsDataURL(newAudioPath);
-
-//  var reader = new FileReader();
-
-// reader.onload = function(e) {
-//   var arrayBuffer = reader.result;
-//   console.log(arrayBuffer)
-// }
-// reader.readAsArrayBuffer(req.file.buffer);
-var songBuffer = req.file.buffer;
-console.log(songBuffer)
-
-    var email = req.session.user_email;
-    var recordingTitle = req.file.originalname;
-    console.log('email: ' + email)
-    console.log('title: ' + recordingTitle)
-
-    var newAudioPath = __dirname + "/uploads/" + req.file.originalname;
-    console.log(newAudioPath)
-
-   
-
-    var colName = ['email', 'title', 'recording'];
-    var colVal = [email, recordingTitle, songBuffer];
-
-    rap.insertInto('recordings', colName, colVal, function(data) {
-
-        // if else statme if fail send message if succes send message(2 json files)
+        }
+    });
+});
         res.json({
             message: 'succesful upload',
             status: true
-        })
-    });
+        });
 
 
 });
@@ -366,18 +314,26 @@ console.log(songBuffer)
 // retrieves audio from MySQL
 function retrieveAudio(email, cb) {
 
-
-    var colName = ['email'];
-    var colVal = [email];
+console.log('------------retrieving audios---')
     var data;
-
-    rap.selectFrom('recordings', colName, colVal, function(audio) {
-        data = audio;
-        cb(data);
+    var query = 'select * from `recordings` where ?',
+    values = {
+      email:email
+    };
+mysqlConn.getConnection(function(err,connection){
+    connection.query(query, values, function (er,data) {
+        if(err){
+            console.log('---Error occured saving audio');
+            console.log(err);
+            cb(err);
+        }
+        else{
+            console.log('++++++ Successfull retrieve audio ++++++++++');
+            //console.log(data);
+            cb(data);
+        }
     });
-
-
-
+});
 }
 
 
