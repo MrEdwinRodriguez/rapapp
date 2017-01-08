@@ -320,6 +320,7 @@ console.log('------------retrieving audios---')
     values = {
       email:email
     };
+    console.log(query)
 mysqlConn.getConnection(function(err,connection){
     connection.query(query, values, function (er,data) {
         if(err){
@@ -335,6 +336,32 @@ mysqlConn.getConnection(function(err,connection){
     });
 });
 }
+
+
+// retrieves audio of other users from MySQL
+// function retrieveAudio(email, cb) {
+
+// console.log('------------retrieving audios---')
+//     var data;
+//     var query = 'select * from `recordings` where ?',
+//     values = {
+//       email:email
+//     };
+// mysqlConn.getConnection(function(err,connection){
+//     connection.query(query, values, function (er,data) {
+//         if(err){
+//             console.log('---Error occured saving audio');
+//             console.log(err);
+//             cb(err);
+//         }
+//         else{
+//             console.log('++++++ Successfull retrieve audio ++++++++++');
+//             //console.log(data);
+//             cb(data);
+//         }
+//     });
+// });
+// }
 
 
 
