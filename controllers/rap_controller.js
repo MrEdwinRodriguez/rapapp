@@ -125,13 +125,16 @@ router.post('/spitbars/newuser', function(req, res) {
     var name, email, photoUrl, uid;
 
 
-    
+
     if (user != null) {
         name = user.displayName;
         email = user.email;
         photoUrl = user.photoURL;
         uid = user.uid;
-        user = req.body;
+        user = {firstname: newFirstName,
+            lastname: newLastName}
+            
+        console.log('user' + user)
         var colName = ['firstname', 'lastname', 'email', 'month', 'day', 'year', 'uid'];
         var colVal = [newFirstName, newLastName, newUserEmail, newUserDOBmonth, newUserDOBday, newUserDOByear, uid];
 
