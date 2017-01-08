@@ -92,7 +92,7 @@ if (navigator.getUserMedia) {
 
             audio.controls = true;
             var blob = new Blob(chunks, { 'type': 'audio/ogg; codecs=opus' });
-           
+
             console.log(blob)
             chunks = [];
             console.log(chunks)
@@ -216,57 +216,65 @@ function postAudio() {
 
     }).done(function(response) {
         console.log(response)
-        for(var items in response){
-            if(response[items].recording_path)
+        for (var items in response) {
+            if (response[items].recording_path)
                 displayMyMusic(response[items]);
         }
     })
 }
 
 postAudio();
-function displayMyMusic(response){
-     var clipName = response.title || "My song";
- //       console.log(clipName)
 
-        var soundClipsSaved = document.querySelector('.sound-clips-saved');
+function displayMyMusic(response) {
+    var clipName = response.title || "My song";
+    //       console.log(clipName)
 
-        var clipContainer = document.createElement('article');
-        var clipLabel = document.createElement('p');
-        var audio = document.createElement('audio');
-        var deleteButton = document.createElement('button');
-        var likeButton = document.createElement('button')
+    var soundClipsSaved = document.querySelector('.sound-clips-saved');
 
-        clipContainer.classList.add('clip');
-        audio.setAttribute('controls', '');
-        audio.setAttribute('src', '');
-        likeButton.textContent = 'Like';
-        likeButton.className = 'like';
+    var clipContainer = document.createElement('article');
+    var clipLabel = document.createElement('p');
+    var audio = document.createElement('audio');
+    var deleteButton = document.createElement('button');
+    var likeButton = document.createElement('button')
 
-        clipLabel.textContent = clipName;
+    clipContainer.classList.add('clip');
+    audio.setAttribute('controls', '');
+    audio.setAttribute('src', '');
+    likeButton.textContent = 'Like';
+    likeButton.className = 'like';
 
-        clipContainer.appendChild(audio);
-        clipContainer.appendChild(clipLabel);
-        clipContainer.appendChild(likeButton);
-        soundClipsSaved.appendChild(clipContainer);
+    clipLabel.textContent = clipName;
+
+    clipContainer.appendChild(audio);
+    clipContainer.appendChild(clipLabel);
+    clipContainer.appendChild(likeButton);
+    soundClipsSaved.appendChild(clipContainer);
 
 
-        audio.controls = true;
-        audio.src = window.location.protocol+'//'+window.location.host+response.recording_path;
-        console.log(audio.src)
-        deleteButton.onclick = function(e) {
-            evtTgt = e.target;
-            evtTgt.parentNode.parentNode.removeChild(evtTgt.parentNode);
-        }
+    audio.controls = true;
+    audio.src = window.location.protocol + '//' + window.location.host + response.recording_path;
+    console.log(audio.src)
+    deleteButton.onclick = function(e) {
+        evtTgt = e.target;
+        evtTgt.parentNode.parentNode.removeChild(evtTgt.parentNode);
+    }
 }
 
-new KudosPlease({ 
-  el : '.kudos',
-  duration : 1500,
-  persistent : true,
-  status : {
-    alpha: 'fontelico-emo-shoot',
-    beta: 'fontelico-emo-shoot',
-    gamma: 'fontelico-emo-beer'
-  }  
-});
+
+$(document).ready(function() {
+    console.log('hello')
+    $(this).on('click', function() {
+        var liked = false;
+        console.log(liked)
+        var amountLikes = 0;
+        liked = true;
+        console.log(liked)
+        console.log(amountLikes)
+        amountLikes++;
+        console.log(amountLikes)
+        console.log('clicked')
+
+    
+    });
+}); // end of on click
 
