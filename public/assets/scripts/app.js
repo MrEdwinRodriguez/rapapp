@@ -234,18 +234,19 @@ function displayMyMusic(response){
         var clipLabel = document.createElement('p');
         var audio = document.createElement('audio');
         var deleteButton = document.createElement('button');
+        var likeButton = document.createElement('button')
 
         clipContainer.classList.add('clip');
         audio.setAttribute('controls', '');
         audio.setAttribute('src', '');
-        deleteButton.textContent = 'Delete';
-        deleteButton.className = 'delete';
+        likeButton.textContent = 'Like';
+        likeButton.className = 'like';
 
         clipLabel.textContent = clipName;
 
         clipContainer.appendChild(audio);
         clipContainer.appendChild(clipLabel);
-        clipContainer.appendChild(deleteButton);
+        clipContainer.appendChild(likeButton);
         soundClipsSaved.appendChild(clipContainer);
 
 
@@ -257,4 +258,15 @@ function displayMyMusic(response){
             evtTgt.parentNode.parentNode.removeChild(evtTgt.parentNode);
         }
 }
+
+new KudosPlease({ 
+  el : '.kudos',
+  duration : 1500,
+  persistent : true,
+  status : {
+    alpha: 'fontelico-emo-shoot',
+    beta: 'fontelico-emo-shoot',
+    gamma: 'fontelico-emo-beer'
+  }  
+});
 
