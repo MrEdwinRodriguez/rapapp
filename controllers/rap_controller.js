@@ -125,18 +125,24 @@ router.post('/spitbars/newuser', function(req, res) {
     var name, email, photoUrl, uid;
 
 
-
+    
     if (user != null) {
         name = user.displayName;
         email = user.email;
         photoUrl = user.photoURL;
         uid = user.uid;
-
+        user = req.body;
         var colName = ['firstname', 'lastname', 'email', 'month', 'day', 'year', 'uid'];
         var colVal = [newFirstName, newLastName, newUserEmail, newUserDOBmonth, newUserDOBday, newUserDOByear, uid];
 
         rap.insertInto('users', colName, colVal, function(data) {
-            res.redirect('/dashboard')
+            res.render('dashboard/', {
+
+                title: 'User Dashboard',
+                title_tag: 'new user login',
+                user: user
+
+            });
         });
     }
 
@@ -173,7 +179,7 @@ router.post('/spitbars/login', function(req, res) {
             console.log(errorMessage);
         }
         console.log(error);
-       // document.getElementById('quickstart-sign-in').disabled = false;
+        // document.getElementById('quickstart-sign-in').disabled = false;
         // [END_EXCLUDE]
     });
 
@@ -210,14 +216,14 @@ router.post('/spitbars/login', function(req, res) {
             console.log(token)
 
             console.log(user)
-            //console.log(user.id)
+                //console.log(user.id)
 
             // pulls audio from user while they loging
             retrieveAudio(req.session.user_email, function(audio) {
 
                 console.log(audio);
-//                var firstSong = audio[0]['recordings'];
-                
+
+
                 res.render('dashboard/', {
 
                     title: 'User Dashboard',
@@ -280,33 +286,32 @@ router.post('/spitbars/reset', function(req, res) {
 router.post('/spitbars/audio', upload.single("track"), function(req, res) {
     console.log("Uploaded file: ", req.file); //audio that was uploaded.
 
-/**
- * Insert audio information to Mysql database
- */
-var query = "INSERT INTO `recordings` SET ?",
-    values = {
-      uid: req.session.user_id,
-      email:req.session.user_email,
-      title:req.file.originalname,
-      recording_path:'/uploads/'+req.file.originalname
-    };
-mysqlConn.getConnection(function(err,connection){
-    connection.query(query, values, function (er, status) {
-        if(err){
-            console.log('---Error occured saving audio');
-            console.log(err);
-        }
-        else{
-            console.log('++++++ Successfull saved audio ++++++++++');
-            console.log(status);
+    /**
+     * Insert audio information to Mysql database
+     */
+    var query = "INSERT INTO `recordings` SET ?",
+        values = {
+            uid: req.session.user_id,
+            email: req.session.user_email,
+            title: req.file.originalname,
+            recording_path: '/uploads/' + req.file.originalname
+        };
+    mysqlConn.getConnection(function(err, connection) {
+        connection.query(query, values, function(er, status) {
+            if (err) {
+                console.log('---Error occured saving audio');
+                console.log(err);
+            } else {
+                console.log('++++++ Successfull saved audio ++++++++++');
+                console.log(status);
 
-        }
-    });
-});
-        res.json({
-            message: 'succesful upload',
-            status: true
+            }
         });
+    });
+    res.json({
+        message: 'succesful upload',
+        status: true
+    });
 
 
 });
@@ -314,27 +319,26 @@ mysqlConn.getConnection(function(err,connection){
 // retrieves audio from MySQL
 function retrieveAudio(email, cb) {
 
-console.log('------------retrieving audios---')
+    console.log('------------retrieving audios---')
     var data;
     var query = 'select * from `recordings` where ?',
-    values = {
-      email:email
-    };
+        values = {
+            email: email
+        };
     console.log(query)
-mysqlConn.getConnection(function(err,connection){
-    connection.query(query, values, function (er,data) {
-        if(err){
-            console.log('---Error occured saving audio');
-            console.log(err);
-            cb(err);
-        }
-        else{
-            console.log('++++++ Successfull retrieve audio ++++++++++');
-            //console.log(data);
-            cb(data);
-        }
+    mysqlConn.getConnection(function(err, connection) {
+        connection.query(query, values, function(er, data) {
+            if (err) {
+                console.log('---Error occured saving audio');
+                console.log(err);
+                cb(err);
+            } else {
+                console.log('++++++ Successfull retrieve audio ++++++++++');
+                //console.log(data);
+                cb(data);
+            }
+        });
     });
-});
 }
 
 
