@@ -11,6 +11,7 @@ CREATE TABLE users
 	month varchar (50) NOT NULL,
 	day INT (2) NOT NULL,
 	year INT (4) NOT NULL,
+	rating INT(10000) NOT NULL,
 	PRIMARY KEY (id)
 );
 
@@ -23,6 +24,9 @@ CREATE TABLE recordings
 	email varchar (50) NOT NULL,
 	PRIMARY KEY (id)
 );
+
+
+
 
 CREATE TABLE comments
 (

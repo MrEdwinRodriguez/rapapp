@@ -26,24 +26,21 @@
         <div class="jumbotron">
             <div class="row">
                 <div class="col-xs-6 col-md-4">
-                    <h3><div id='userName'>{{user.firstname}} {{user.lastname}}</div></h3>
+                    <h3><div id='userName'>{{user.firstname}} {{user.lastname}} </div></h3>
                     <h4><div id='email' style='display: none'>{{user.email}}</div></h4>
+
                     <div id='profileImage'>
                         <form method='post' action="/spitbars/upload" enctype="multipart/form-data">
                             <input type='file' value='upload' id='fileButton' />
-                            <!-- <button class="btn btn-primary btn-large btn-block"  type='submit'>Submit</button> -->
+                           
                         </form>
                     </div>
                 </div>
                 <div class="col-xs-6 col-md-4">
-            <!--         <div id='hold_buttons'>
-                        <button type="button" class='action_btn'>The Challenge</button>
-                        <br>
-                        <button type="button" class='action_btn'>Record</button>
-                        <br>
-                        <button type="button" class='action_btn'>Upload Music</button>
-                        <br>
-                    </div> -->
+                        <div id= 'rating'>
+                        <h3>Current Rating</h3><br>
+                        <h1>{{user.rating}}</h1>
+                        </div>
                 </div>
                 <div class="col-xs-6 col-md-4">
                     <div class="wrapper">

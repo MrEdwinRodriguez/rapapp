@@ -26,6 +26,12 @@ body {
 
 }
 
+#rating{
+  text-align: center;
+  border: solid;
+
+}
+
 .wrapper {
   height: 100%;
   display: flex;

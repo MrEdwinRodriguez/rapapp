@@ -130,13 +130,25 @@ router.post('/spitbars/newuser', function(req, res) {
         name = user.displayName;
         email = user.email;
         photoUrl = user.photoURL;
+        rating = 0;
         uid = user.uid;
-        user = {firstname: newFirstName,
-            lastname: newLastName}
-            
+        user = {
+            firstname: newFirstName,
+            lastname: newLastName,
+            rating: 0
+        }
+
+        req.session.user_id = user.id;
+        // req.session.fb_user_id = user.uid;
+        req.session.first_name = newFirstName;
+        req.session.last_name = newLastName;
+        req.session.user_email = newUserEmail;
+
+
+
         console.log('user' + user)
-        var colName = ['firstname', 'lastname', 'email', 'month', 'day', 'year', 'uid'];
-        var colVal = [newFirstName, newLastName, newUserEmail, newUserDOBmonth, newUserDOBday, newUserDOByear, uid];
+        var colName = ['firstname', 'lastname', 'email', 'month', 'day', 'year', 'uid', 'rating'];
+        var colVal = [newFirstName, newLastName, newUserEmail, newUserDOBmonth, newUserDOBday, newUserDOByear, uid, rating];
 
         rap.insertInto('users', colName, colVal, function(data) {
             res.render('dashboard/', {
@@ -345,31 +357,38 @@ function retrieveAudio(email, cb) {
 }
 
 
-// retrieves audio of other users from MySQL
-// function retrieveAudio(email, cb) {
 
-// console.log('------------retrieving audios---')
-//     var data;
-//     var query = 'select * from `recordings` where ?',
-//     values = {
-//       email:email
-//     };
-// mysqlConn.getConnection(function(err,connection){
-//     connection.query(query, values, function (er,data) {
-//         if(err){
-//             console.log('---Error occured saving audio');
-//             console.log(err);
-//             cb(err);
-//         }
-//         else{
-//             console.log('++++++ Successfull retrieve audio ++++++++++');
-//             //console.log(data);
-//             cb(data);
-//         }
-//     });
-// });
-// }
+// update rating with likes
 
+
+router.put('/spitbars/ratingChange', function(req,res) {
+    var condition = 'email = ' + req.session.user_email;
+
+    console.log('condition', condition);
+
+    rap.update({'sleepy' : req.body.sleepy}, condition, function(data){
+        res.redirect('/cats');
+    });
+
+
+    // 
+    console.log(req.body);
+
+    var colName = ['rating'];
+    var colVal = [req.body];
+
+   
+        // res.render('dashboard/', {
+
+        //     title: 'User Dashboard',
+        //     title_tag: 'new user login',
+        //     user: user
+
+        // });
+    });
+
+
+});
 
 
 

@@ -92,7 +92,7 @@ if (navigator.getUserMedia) {
 
             audio.controls = true;
             var blob = new Blob(chunks, { 'type': 'audio/ogg; codecs=opus' });
-           
+
             console.log(blob)
             chunks = [];
             console.log(chunks)
@@ -217,77 +217,96 @@ function postAudio() {
     }).done(function(response) {
         console.log(response)
 
-        for(var items in response){
+        for (var items in response) {
 
-            if(response[items].recording_path)
+            if (response[items].recording_path)
                 displayMyMusic(response[items]);
         }
     })
 }
 
 postAudio();
-function displayMyMusic(response){
+
+function displayMyMusic(response) {
     console.log(response)
-     var clipName = response.title || "My song";
- //       console.log(clipName)
+    var clipName = response.title || "My song";
+    //       console.log(clipName)
 
 
 
 
-        var soundClipsSaved = document.querySelector('.sound-clips-saved');
+    var soundClipsSaved = document.querySelector('.sound-clips-saved');
 
-        var clipContainer = document.createElement('article');
-        var clipLabel = document.createElement('p');
-        var audio = document.createElement('audio');
-        var deleteButton = document.createElement('button');
-        var likeButton = document.createElement('button')
+    var clipContainer = document.createElement('article');
+    var clipLabel = document.createElement('p');
+    var audio = document.createElement('audio');
+    var deleteButton = document.createElement('button');
+    var likeButton = document.createElement('button')
 
-        clipContainer.classList.add('clip');
-        audio.setAttribute('controls', '');
-        audio.setAttribute('src', '');
-        // deleteButton.textContent = 'Delete';
-        // deleteButton.className = 'delete';
-        likeButton.textContent = 'Like';
-        likeButton.className = 'like';
+    clipContainer.classList.add('clip');
+    audio.setAttribute('controls', '');
+    audio.setAttribute('src', '');
+    // deleteButton.textContent = 'Delete';
+    // deleteButton.className = 'delete';
+    likeButton.textContent = 'Like';
+    likeButton.className = 'like';
 
-        clipLabel.textContent = clipName;
+    clipLabel.textContent = clipName;
 
-        clipContainer.appendChild(audio);
-        clipContainer.appendChild(clipLabel);
-        clipContainer.appendChild(likeButton);
-        soundClipsSaved.appendChild(clipContainer);
+    clipContainer.appendChild(audio);
+    clipContainer.appendChild(clipLabel);
+    clipContainer.appendChild(likeButton);
+    soundClipsSaved.appendChild(clipContainer);
 
 
-        audio.controls = true;
-        audio.src = window.location.protocol+'//'+window.location.host+response.recording_path;
-        console.log(audio.src)
-        deleteButton.onclick = function(e) {
-            evtTgt = e.target;
-            evtTgt.parentNode.parentNode.removeChild(evtTgt.parentNode);
-        }
+    audio.controls = true;
+    audio.src = window.location.protocol + '//' + window.location.host + response.recording_path;
+    console.log(audio.src)
+    deleteButton.onclick = function(e) {
+        evtTgt = e.target;
+        evtTgt.parentNode.parentNode.removeChild(evtTgt.parentNode);
+    }
 
 
 
 }
 
 
- var amountLikes = 0;
- var liked = true;
+function changeRating(rating) {
+    console.log('changeRating function')
+    $.ajax({
+        type: "POST",
+        url: '/spitbars/ratingChange',
+        data: rating,
+        success: success,
+        processData: false,
+        contentType: false
+
+    });
+
+}
+
+
+var amountLikes = 0;
+var liked = true;
 
 $(document).ready(function() {
     console.log('hello')
     $(this).on('click', function() {
-        
+
+console.log('hello again')
+
         if (liked) {
             amountLikes++;
             console.log(amountLikes);
             liked = false;
-        }else{
+        }else {
             amountLikes--;
             console.log(amountLikes)
             liked = true;
         }
-
+         changeRating(amountLikes);
     });
-}); // end of on click
+   
 
+}); // end of on click
