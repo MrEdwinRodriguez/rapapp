@@ -220,14 +220,32 @@ function postAudio() {
         for (var items in response) {
 
             if (response[items].recording_path)
-                displayMyMusic(response[items]);
+                displayMyMusic('.sound-clips-saved',response[items]);
+        }
+    })
+    /**
+     * Getting discoverable audios from other persons
+     */
+    $.ajax({
+        type: "GET",
+        url: '/api/discover/audio',
+    data: {maxLimit:10},/**this limit tells to fetch highly random 10 lists */
+        success: success
+
+    }).done(function(response) {
+        console.log(response)
+
+        for (var items in response) {
+
+            if (response[items].recording_path)
+                displayMyMusic('.sound-clips-discover',response[items]);
         }
     })
 }
 
 postAudio();
 
-function displayMyMusic(response) {
+function displayMyMusic(container,response) {
     console.log(response)
     var clipName = response.title || "My song";
     //       console.log(clipName)
@@ -235,7 +253,7 @@ function displayMyMusic(response) {
 
 
 
-    var soundClipsSaved = document.querySelector('.sound-clips-saved');
+    var soundClipsSaved = document.querySelector(container);
 
     var clipContainer = document.createElement('article');
     var clipLabel = document.createElement('p');

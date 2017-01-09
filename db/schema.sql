@@ -22,6 +22,7 @@ CREATE TABLE recordings
 	title VARCHAR(100) NOT NULL,
 	recording_path VARCHAR(1000) NOT NULL,
 	email varchar (50) NOT NULL,
+	date_stamp timestamp NULL DEFAULT CURRENT_TIMESTAMP, 
 	PRIMARY KEY (id)
 );
 

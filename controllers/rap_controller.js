@@ -17,6 +17,7 @@ var app = firebase.initializeApp({
     storageBucket: "spit-bars.appspot.com",
     messagingSenderId: "810792566820"
 });
+var mysql = require('mysql');
 var musicInventory = path.resolve(__dirname, "../public/uploads");
 
 
@@ -265,6 +266,14 @@ router.get('/api/audio', function(req, res) {
         res.send(audio)
 
     })
+});
+//get discoverable audios
+router.get('/api/discover/audio', function(req, res) {
+    //passing all query that is got from client side
+    retrieveOtherAudio({email:req.session.user_email,query:req.query}, function(audio) {
+            res.send(audio)
+
+        })
 })
 
 
@@ -358,18 +367,17 @@ function retrieveAudio(email, cb) {
 
 
 // retrieveOtherAudio(session.req.user_email)
-function retrieveOtherAudio(email, cb) {
+function retrieveOtherAudio(payloads, cb) {
 
     // SELECT * FROM  recordings WHERE  email != 'jj@test.com';
-    console.log('------------retrieving audios---')
+    console.log('------------retrieving other audios---')
     var data;
-    var query = 'select * from `recordings` where email != ',
-        values = {
-            email: email
-        };
-    console.log(query)
+    /**Selecing highly random music lists */
+    var query = 'SELECT * FROM recordings r1 WHERE email != ? ORDER BY RAND() ASC LIMIT '+payloads.query.maxLimit+';';
+    values = [payloads.email];
+        console.log(mysql.format(query,values))
     mysqlConn.getConnection(function(err, connection) {
-        connection.query(query, values, function(er, data) {
+        connection.query(mysql.format(query,values), function(er, data) {
             if (err) {
                 console.log('---Error occured saving audio');
                 console.log(err);
