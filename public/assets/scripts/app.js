@@ -273,18 +273,21 @@ function displayMyMusic(response) {
 
 
 function changeRating(rating) {
-    console.log('changeRating function')
-    $.ajax({
-        type: "POST",
-        url: '/spitbars/ratingChange',
-        data: rating,
-        success: success,
-        processData: false,
-        contentType: false
+var formData = new FormData();    
+var formData = { change: rating };
 
-    });
+$.ajax({
+    type: "POST",
+    url: 'spitbars/ratingChange',
+    data: formData,
+    success: success
+        // processData: false,
+        // contentType: false
+
+});
 
 }
+
 
 
 var amountLikes = 0;
@@ -294,14 +297,14 @@ $(document).ready(function() {
     console.log('hello')
     $(this).on('click', function() {
 
-console.log('hello again')
+
 
         if (liked) {
-            amountLikes++;
+            amountLikes= 1;
             console.log(amountLikes);
             liked = false;
         }else {
-            amountLikes--;
+            amountLikes= -1;
             console.log(amountLikes)
             liked = true;
         }

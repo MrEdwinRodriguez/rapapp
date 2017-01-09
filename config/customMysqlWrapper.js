@@ -21,20 +21,5 @@ exports.getConnection = function(done){
   console.log('connected as id ' + connection.threadId);
 		});
         done(null,connection);
-			// connection.query(
-			// 		queryString,function(err,result){
-			// 		if(err)
-			// 		{
-			// 			//connection.release();
-			// 			callback('err');
-			// 			console.log(err);
-			// 		}
-			// 		else
-			// 		{
-			// 			//console.log('result: ',result);
-			// 			callback(result);
-			// 		}
-			// });
-			//terminating connection
-		//	connection.end();
+
 }

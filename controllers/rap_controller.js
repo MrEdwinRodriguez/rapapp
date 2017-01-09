@@ -35,18 +35,16 @@ router.get('/recordings', function(req, res) {
 });
 
 router.get("/signup", function(req, res) {
-    // res.sendfile(__dirname + "../public/signup.html");
     res.sendFile(path.join(__dirname, '../public/signup.html'));
 });
 
 router.get("/dashboard", function(req, res) {
-    // res.sendfile(__dirname + "../public/signup.html");
+
     res.sendFile(path.join(__dirname, '../public/dashboard.html'));
 });
 
 
 router.get("/reset", function(req, res) {
-    // res.sendfile(__dirname + "../public/signup.html");
     res.sendFile(path.join(__dirname, '../public/email.html'));
 });
 
@@ -219,6 +217,7 @@ router.post('/spitbars/login', function(req, res) {
             req.session.first_name = user.firstname;
             req.session.last_name = user.lastname;
             req.session.user_email = user.email;
+            req.session.user_rating = user.rating;
 
             console.log(user.email);
             var token = jwt.sign({
@@ -231,12 +230,13 @@ router.post('/spitbars/login', function(req, res) {
             console.log(token)
 
             console.log(user)
-                //console.log(user.id)
+
 
             // pulls audio from user while they loging
             retrieveAudio(req.session.user_email, function(audio) {
 
                 console.log(audio);
+
 
 
                 res.render('dashboard/', {
@@ -357,35 +357,63 @@ function retrieveAudio(email, cb) {
 }
 
 
+// retrieveOtherAudio(session.req.user_email)
+function retrieveOtherAudio(email, cb) {
+
+    // SELECT * FROM  recordings WHERE  email != 'jj@test.com';
+    console.log('------------retrieving audios---')
+    var data;
+    var query = 'select * from `recordings` where email != ',
+        values = {
+            email: email
+        };
+    console.log(query)
+    mysqlConn.getConnection(function(err, connection) {
+        connection.query(query, values, function(er, data) {
+            if (err) {
+                console.log('---Error occured saving audio');
+                console.log(err);
+                cb(err);
+            } else {
+                console.log('++++++ Successfull retrieve audio ++++++++++');
+                //console.log(data);
+                cb(data);
+            }
+        });
+    });
+}
+
 
 // update rating with likes
 
 
-router.put('/spitbars/ratingChange', function(req,res) {
-    var condition = 'email = ' + req.session.user_email;
+router.post('/spitbars/ratingChange', function(req, res) {
+    console.log(req.body);
+    console.log(req.session.user_rating)
+    var condition = 'id = ' + req.session.user_id;
 
     console.log('condition', condition);
 
-    rap.update({'sleepy' : req.body.sleepy}, condition, function(data){
-        res.redirect('/cats');
+    rap.update({ 'rating': req.body.sleepy }, condition, function(data) {
+        res.redirect('/dashboard');
     });
 
 
     // 
-    console.log(req.body);
+
 
     var colName = ['rating'];
     var colVal = [req.body];
 
-   
-        // res.render('dashboard/', {
 
-        //     title: 'User Dashboard',
-        //     title_tag: 'new user login',
-        //     user: user
+    // res.render('dashboard/', {
 
-        // });
-    });
+    //     title: 'User Dashboard',
+    //     title_tag: 'new user login',
+    //     user: user
+
+    // });
+    // });
 
 
 });
