@@ -394,7 +394,6 @@ function retrieveOtherAudio(payloads, cb) {
 
 // update rating with likes
 
-
 router.post('/spitbars/ratingChange', function(req, res) {
     console.log(req.body);
     console.log(req.session.user_rating)

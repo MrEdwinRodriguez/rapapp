@@ -297,7 +297,7 @@ function displayMyMusic(container, response) {
 function changeRating(rating) {
     var formData = new FormData();
     var formData = { change: rating };
-    var postUrl = window.location.origin + 'spitbars/ratingChange';
+    var postUrl = window.location.origin + '/spitbars/ratingChange';
     $.ajax({
         type: "POST",
         url: postUrl,
@@ -315,23 +315,34 @@ function changeRating(rating) {
 
 
 
-var amountLikes = 0;
+// var amountLikes = 0;
 // var liked = true;
 
 $(document).ready(function() {
     console.log('hello')
     $(this).on('click', function(e) {
 
-console.log(this.target);
+// get id of each button
+var targetedLike = "button " + e.target.id;
+console.log(targetedLike)
 
-        if (true) {
-            amountLikes = 1;
-            console.log(amountLikes);
-            liked = false;
-        } else {
+//checks status of each button
+console.log(e.target.getAttribute('liked'))
+var likeStatus = e.target.getAttribute('liked')
+
+
+
+
+
+
+        if (likeStatus === true) {
             amountLikes = -1;
+            console.log(amountLikes);
+            e.target.setAttribute('liked', false)
+        } else {
+            amountLikes = 1;
             console.log(amountLikes)
-            liked = true;
+            e.target.setAttribute('liked', true)
         }
         changeRating(amountLikes);
     });
