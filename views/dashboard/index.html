@@ -22,25 +22,47 @@
 
 <body>
     <!--jumbotron -->
+    <div >
+        
+        <div class='container'>
+            <div class="row" id='beatContainer'>
+            <h3>Select a Beat</h3>
+                <div class="col-xs-6 col-md-4">
+                    <audio controls>
+                        <source class='playBeats' src='/assets/beats/beat1.mp3' type="audio/mpeg">
+                    </audio>
+                </div>
+                <div class="col-xs-6 col-md-4">
+                    <audio controls>
+                        <source class='playBeats' src='/assets/beats/beat2.mp3' type="audio/mpeg">
+                    </audio>
+                </div>
+                <div class="col-xs-6 col-md-4">
+                    <audio controls>
+                        <source class='playBeats' src='/assets/beats/beat3.mp3' type="audio/mpeg">
+                    </audio>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class='container'>
         <div class="jumbotron">
             <div class="row">
                 <div class="col-xs-6 col-md-4">
                     <h3><div id='userName'>{{user.firstname}} {{user.lastname}} </div></h3>
                     <h4><div id='email' style='display: none'>{{user.email}}</div></h4>
-
                     <div id='profileImage'>
                         <form method='post' action="/spitbars/upload" enctype="multipart/form-data">
                             <input type='file' value='upload' id='fileButton' />
-                           
                         </form>
                     </div>
                 </div>
                 <div class="col-xs-6 col-md-4">
-                        <div id= 'rating'>
-                        <h3>Current Rating</h3><br>
+                    <div id='rating'>
+                        <h3>Current Rating</h3>
+                        <br>
                         <h1>{{user.rating}}</h1>
-                        </div>
+                    </div>
                 </div>
                 <div class="col-xs-6 col-md-4">
                     <div class="wrapper">
@@ -70,15 +92,16 @@
             <div class="col-md-4">
                 <div class='holdRecordings'>
                     <h4 class="columnTitle">Music I Follow</h4>
+                    <h5>COMING SOON</h5>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class='holdRecordings'>
-                <h4 class="columnTitle">Discover Music</h4>
-                <section class="sound-clips-discover">
+                    <h4 class="columnTitle">Discover Music</h4>
+                    <section class="sound-clips-discover">
                     </section>
                 </div>
-                </div>
+            </div>
         </div>
     </div>
     <!-- jQuery -->

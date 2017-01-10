@@ -210,26 +210,27 @@ function visualize(stream) {
 function postAudio() {
 
     $.ajax({
-        type: "GET",
-        url: '/api/audio',
-        success: success
+            type: "GET",
+            url: '/api/audio',
+            success: success
 
-    }).done(function(response) {
-        console.log(response)
+        }).done(function(response) {
+            console.log(response)
 
-        for (var items in response) {
+            for (var items in response) {
 
-            if (response[items].recording_path)
-                displayMyMusic('.sound-clips-saved',response[items]);
-        }
-    })
-    /**
-     * Getting discoverable audios from other persons
-     */
+                if (response[items].recording_path)
+                    displayMyMusic('.sound-clips-saved', response[items]);
+            }
+        })
+        /**
+         * Getting discoverable audios from other persons
+         */
     $.ajax({
         type: "GET",
         url: '/api/discover/audio',
-    data: {maxLimit:10},/**this limit tells to fetch highly random 10 lists */
+        data: { maxLimit: 10 },
+        /**this limit tells to fetch highly random 10 lists */
         success: success
 
     }).done(function(response) {
@@ -238,14 +239,14 @@ function postAudio() {
         for (var items in response) {
 
             if (response[items].recording_path)
-                displayMyMusic('.sound-clips-discover',response[items]);
+                displayMyMusic('.sound-clips-discover', response[items]);
         }
     })
 }
 
 postAudio();
 
-function displayMyMusic(container,response) {
+function displayMyMusic(container, response) {
     console.log(response)
     var clipName = response.title || "My song";
     //       console.log(clipName)
@@ -291,20 +292,38 @@ function displayMyMusic(container,response) {
 
 
 function changeRating(rating) {
-var formData = new FormData();    
-var formData = { change: rating };
+    var formData = new FormData();
+    var formData = { change: rating };
 
-$.ajax({
-    type: "POST",
-    url: 'spitbars/ratingChange',
-    data: formData,
-    success: success
-        // processData: false,
-        // contentType: false
+    $.ajax({
+        type: "POST",
+        url: 'spitbars/ratingChange',
+        data: formData,
+        success: success
+            // processData: false,
+            // contentType: false
 
-});
+    });
 
 }
+
+function randomBeat() {
+    var beats = ['beat1.mp3', 'beat2.mp3', 'beat3.mp3'];
+    var pickedBeat = beats[Math.floor(Math.random() * beats.length)];
+
+    console.log(pickedBeat);
+
+ 
+    document.getElementById("playBeats").src = '/assets/beats/beat1.mp3';
+
+    
+}
+
+randomBeat();
+
+
+
+
 
 
 
@@ -318,16 +337,16 @@ $(document).ready(function() {
 
 
         if (liked) {
-            amountLikes= 1;
+            amountLikes = 1;
             console.log(amountLikes);
             liked = false;
-        }else {
-            amountLikes= -1;
+        } else {
+            amountLikes = -1;
             console.log(amountLikes)
             liked = true;
         }
-         changeRating(amountLikes);
+        changeRating(amountLikes);
     });
-   
+
 
 }); // end of on click
