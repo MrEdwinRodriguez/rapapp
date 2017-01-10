@@ -248,11 +248,12 @@ postAudio();
 
 function displayMyMusic(container, response) {
     console.log(response)
+    
     var clipName = response.title || "My song";
     //       console.log(clipName)
 
 
-
+    var independant = response.id;
 
     var soundClipsSaved = document.querySelector(container);
 
@@ -265,6 +266,8 @@ function displayMyMusic(container, response) {
     clipContainer.classList.add('clip');
     audio.setAttribute('controls', '');
     audio.setAttribute('src', '');
+    likeButton.setAttribute('liked', false);
+    likeButton.setAttribute('id', independant)
     // deleteButton.textContent = 'Delete';
     // deleteButton.className = 'delete';
     likeButton.textContent = 'Like';
@@ -294,10 +297,10 @@ function displayMyMusic(container, response) {
 function changeRating(rating) {
     var formData = new FormData();
     var formData = { change: rating };
-
+    var postUrl = window.location.origin + 'spitbars/ratingChange';
     $.ajax({
         type: "POST",
-        url: 'spitbars/ratingChange',
+        url: postUrl,
         data: formData,
         success: success
             // processData: false,
@@ -307,36 +310,21 @@ function changeRating(rating) {
 
 }
 
-function randomBeat() {
-    var beats = ['beat1.mp3', 'beat2.mp3', 'beat3.mp3'];
-    var pickedBeat = beats[Math.floor(Math.random() * beats.length)];
-
-    console.log(pickedBeat);
-
- 
-    document.getElementById("playBeats").src = '/assets/beats/beat1.mp3';
-
-    
-}
-
-randomBeat();
-
-
 
 
 
 
 
 var amountLikes = 0;
-var liked = true;
+// var liked = true;
 
 $(document).ready(function() {
     console.log('hello')
-    $(this).on('click', function() {
+    $(this).on('click', function(e) {
 
+console.log(this.target);
 
-
-        if (liked) {
+        if (true) {
             amountLikes = 1;
             console.log(amountLikes);
             liked = false;
