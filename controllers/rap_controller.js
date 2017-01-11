@@ -270,10 +270,10 @@ router.get('/api/audio', function(req, res) {
 //get discoverable audios
 router.get('/api/discover/audio', function(req, res) {
     //passing all query that is got from client side
-    retrieveOtherAudio({email:req.session.user_email,query:req.query}, function(audio) {
-            res.send(audio)
+    retrieveOtherAudio({ email: req.session.user_email, query: req.query }, function(audio) {
+        res.send(audio)
 
-        })
+    })
 })
 
 
@@ -373,11 +373,11 @@ function retrieveOtherAudio(payloads, cb) {
     console.log('------------retrieving other audios---')
     var data;
     /**Selecing highly random music lists */
-    var query = 'SELECT * FROM recordings r1 WHERE email != ? ORDER BY RAND() ASC LIMIT '+payloads.query.maxLimit+';';
+    var query = 'SELECT * FROM recordings r1 WHERE email != ? ORDER BY RAND() ASC LIMIT ' + payloads.query.maxLimit + ';';
     values = [payloads.email];
-        console.log(mysql.format(query,values))
+    console.log(mysql.format(query, values))
     mysqlConn.getConnection(function(err, connection) {
-        connection.query(mysql.format(query,values), function(er, data) {
+        connection.query(mysql.format(query, values), function(er, data) {
             if (err) {
                 console.log('---Error occured saving audio');
                 console.log(err);
@@ -395,13 +395,18 @@ function retrieveOtherAudio(payloads, cb) {
 // update rating with likes
 
 router.post('/spitbars/ratingChange', function(req, res) {
-    console.log(req.body);
-    console.log(req.session.user_rating)
+
+    var x = parseInt(req.body.change)
+    var y = parseInt(req.session.user_rating)
+    var newRating = x + y;
+
+    console.log(newRating)
+
     var condition = 'id = ' + req.session.user_id;
 
     console.log('condition', condition);
 
-    rap.update({ 'rating': req.body.sleepy }, condition, function(data) {
+    rap.update({ 'rating': newRating }, condition, function(data) {
         res.redirect('/dashboard');
     });
 
