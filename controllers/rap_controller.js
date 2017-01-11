@@ -392,10 +392,12 @@ function retrieveOtherAudio(payloads, cb) {
 }
 
 
+var x = 0;
+var y = 0;
 // update rating with likes
 
 router.post('/spitbars/ratingChange', function(req, res) {
-
+    console.log(req.body)
     var x = parseInt(req.body.change)
     var y = parseInt(req.session.user_rating)
     var newRating = x + y;
@@ -403,8 +405,10 @@ router.post('/spitbars/ratingChange', function(req, res) {
     console.log(newRating)
 
     var condition = 'id = ' + req.session.user_id;
+    
 
     console.log('condition', condition);
+
 
     rap.update({ 'rating': newRating }, condition, function(data) {
         res.redirect('/dashboard');

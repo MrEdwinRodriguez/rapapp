@@ -248,12 +248,13 @@ postAudio();
 
 function displayMyMusic(container, response) {
     console.log(response)
-    
+
     var clipName = response.title || "My song";
     //       console.log(clipName)
 
 
     var independant = response.id;
+    
 
     var soundClipsSaved = document.querySelector(container);
 
@@ -268,8 +269,9 @@ function displayMyMusic(container, response) {
     audio.setAttribute('src', '');
     likeButton.setAttribute('liked', false);
     likeButton.setAttribute('id', independant)
-    // deleteButton.textContent = 'Delete';
-    // deleteButton.className = 'delete';
+   
+        // deleteButton.textContent = 'Delete';
+        // deleteButton.className = 'delete';
     likeButton.textContent = 'Like';
     likeButton.className = 'like';
 
@@ -296,7 +298,7 @@ function displayMyMusic(container, response) {
 
 function changeRating(rating) {
     var formData = new FormData();
-    var formData = { change: rating };
+    var formData = { change: rating};
     var postUrl = window.location.origin + '/spitbars/ratingChange';
     $.ajax({
         type: "POST",
@@ -312,37 +314,33 @@ function changeRating(rating) {
 
 
 
-
-
-
-// var amountLikes = 0;
-// var liked = true;
+var amountLikes= 0;
 
 $(document).ready(function() {
-    console.log('hello')
+
     $(this).on('click', function(e) {
 
-// get id of each button
-var targetedLike = "button " + e.target.id;
-console.log(targetedLike)
+        // get id of each button
+        var targetedLike = "button " + e.target.id;
+        console.log(targetedLike)
 
-//checks status of each button
-console.log(e.target.getAttribute('liked'))
-var likeStatus = e.target.getAttribute('liked')
+        // get email assigned to recording
 
 
+        //checks status of each button
+        console.log(e.target.getAttribute('liked'))
+        var likeStatus = e.target.getAttribute('liked')
+        console.log('like' + likeStatus)
 
 
-
-
-        if (likeStatus === true) {
-            amountLikes = -1;
+        if (e.target.getAttribute('liked') === true) {
+            amountLikes--;
             console.log(amountLikes);
-            e.target.setAttribute('liked', false)
+            e.target.setAttribute('liked', false);
         } else {
-            amountLikes = 1;
-            console.log(amountLikes)
-            e.target.setAttribute('liked', true)
+            amountLikes++ ;
+            console.log(amountLikes);
+            e.target.setAttribute('liked', true);
         }
         changeRating(amountLikes);
     });

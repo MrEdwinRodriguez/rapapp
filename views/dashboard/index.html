@@ -22,11 +22,10 @@
 
 <body>
     <!--jumbotron -->
-    <div >
-        
+    <div>
         <div class='container'>
             <div class="row" id='beatContainer'>
-            <h3>Select a Beat</h3>
+                <h3>Select a Beat</h3>
                 <div class="col-xs-6 col-md-4">
                     <audio controls>
                         <source class='playBeats' src='/assets/beats/beat1.mp3' type="audio/mpeg">
@@ -52,6 +51,7 @@
                     <h3><div id='userName'>{{user.firstname}} {{user.lastname}} </div></h3>
                     <h4><div id='email' style='display: none'>{{user.email}}</div></h4>
                     <div id='profileImage'>
+                    <img src = '/assets/images/thumbnail.jpg' id = 'thumbnail'>
                         <form method='post' action="/spitbars/upload" enctype="multipart/form-data">
                             <input type='file' value='upload' id='fileButton' />
                         </form>

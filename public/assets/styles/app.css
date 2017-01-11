@@ -19,6 +19,11 @@ body {
     background-color: #282727;
 }
 
+#thumbnail{
+    height: 80%;
+    width: 80%;
+}
+
 
 /*#userName{*/
 
